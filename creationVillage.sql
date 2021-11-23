@@ -9,14 +9,16 @@ CREATE TABLE Village (
 );
 
 CREATE TABLE Clan(
+idClan INT(10) NOT NULL,
+nomClan VARCHAR(20) NOT NULL,
 
 )
 
-CREATE TABLE (
+CREATE TABLE Troupe(
 
 )
 
-CREATE TABLE (
+CREATE TABLE Camp(
 
 )
 
