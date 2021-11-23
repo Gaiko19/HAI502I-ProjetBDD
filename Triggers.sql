@@ -1,0 +1,4 @@
+CREATE TRIGGER nomVillageMajuscule
+BEFORE INSERT ON Village
+FOR EACH ROW
+SET 
