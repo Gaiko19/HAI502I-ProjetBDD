@@ -167,22 +167,22 @@ CREATE TABLE Camp(
   idVillage NUMBER(10) NOT NULL,
   CONSTRAINT PK_IDCAMP PRIMARY KEY (idCamp),
   CONSTRAINT FK_typeTroupe FOREIGN KEY (typeTroupe) REFERENCES Troupe(idTroupe),
-  CONSTRAINT FK_idVillage FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
+  CONSTRAINT FK_idVillageCamp FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Heros(
   idHeros NUMBER(10),
-  typeHeros ENUM('Reine des Archers', 'Roi des barbares', 'Grand Gardien', 'Championne Royale'),
+  typeHeros VARCHAR(10) CHECK( typeHeros IN ('Reine des Archers', 'Roi des barbares', 'Grand Gardien', 'Championne Royale')),
   niveauHeros NUMERIC(2,0) DEFAULT 1,
   vieHeros NUMBER(5),
   idVillage NUMBER(10) NOT NULL,
   CONSTRAINT PK_IDHEROS PRIMARY KEY (idHeros),
-  CONSTRAINT FK_idVillage FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
+  CONSTRAINT FK_idVillageHeros FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Reserves(
   idReserve NUMBER(10),
-  typeReserve ENUM('Or', 'Elixir', 'ElixirNoir'),
+  typeReserve VARCHAR(10) CHECK( typeReserve IN ('Or', 'Elixir', 'ElixirNoir')),
   quantiteMax NUMBER(10) DEFAULT 10,
   quantite NUMBER(10) DEFAULT 0,
   idVillage NUMBER(10) NOT NULL,
@@ -236,4 +236,4 @@ Ajout des clés étrangères nécessitant une table
 
 prompt "Ajout des clés etrangères"
 
-ALTER TABLE "Village" ADD CONSTRAINT FK_idClan FOREIGN KEY ("idClan") REFERENCES "Clan" ("idClan");
+ALTER TABLE Village ADD CONSTRAINT FK_idClan FOREIGN KEY (idClan) REFERENCES Clan(idClan);
