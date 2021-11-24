@@ -12,10 +12,9 @@ CREATE TABLE Clan(
   idClan INT(10),
   nomClan VARCHAR(20) UNIQUE NOT NULL,
   regionClan VARCHAR(20),
-  nombreMembres INT(100), 
+  membresMax INT(100) NOT NULL,
   niveauClan INT(100) NOT NULL,
   tropheesMinimum INT(100),
-  paysOrigine VARCHAR(20),
   chefDeClan INT(10) NOT NULL,
   CONSTRAINT PK_idClan PRIMARY KEY idClan,
   CONSTRAINT FK_CHEFDECLAN FOREIGN KEY chefDeClan REFERENCES Village(idVillage)
