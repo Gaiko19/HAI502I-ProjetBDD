@@ -9,6 +9,17 @@ ELLES PERMETTENT DE SUPPRIMER PROPREMENT LES RELATIONS
 */
 
 prompt "Suppression des relations"
+
+/*BEGIN
+EXECUTE IMMEDIATE 'ALTER TABLE Village DROP CONSTRAINT FK_idClan';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+    RAISE;
+    END IF;
+END;
+/*/
+
 BEGIN
 EXECUTE IMMEDIATE 'DROP TABLE AttaqueDeGuerre';
 EXCEPTION
@@ -30,7 +41,7 @@ END;
 /
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TABLE Clan';
+EXECUTE IMMEDIATE 'DROP TABLE Clan CASCADE CONSTRAINT';
 EXCEPTION
  WHEN OTHERS THEN
   IF SQLCODE != -942 THEN
@@ -40,7 +51,7 @@ END;
 /
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TABLE Village';
+EXECUTE IMMEDIATE 'DROP TABLE Village CASCADE CONSTRAINT';
 EXCEPTION
  WHEN OTHERS THEN
   IF SQLCODE != -942 THEN
@@ -115,102 +126,114 @@ prompt "Création des relations"
 
 
 CREATE TABLE Village(
-	idVillage INTEGER(10) NOT NULL, 
+	idVillage NUMBER(10) NOT NULL, 
   nomJoueur VARCHAR(20) UNIQUE NOT NULL,
   niveauJoueur NUMERIC(3,0) DEFAULT 1,
-  capaciteeCampMax INTEGER(100) NOT NULL,
-  idClan INTEGER(10),
-  CONSTRAINT PK_IDVILLLAGE PRIMARY KEY idVillage,
-  CONSTRAINT FK_IDVILLLAGE FOREIGN KEY idClan REFERENCES Clan(idClan)
+  capaciteeCampMax NUMBER(10) NOT NULL,
+  idClan NUMBER(10),
+  CONSTRAINT PK_IDVILLLAGE PRIMARY KEY (idVillage)
 );
 
 CREATE TABLE Clan(
-  idClan INTEGER(10),
+  idClan NUMBER(10),
   nomClan VARCHAR(20) UNIQUE NOT NULL,
   regionClan VARCHAR(20),
-  membresMax INTEGER(100) NOT NULL,
-  niveauClan INTEGER(100) NOT NULL,
-  tropheesMinimum INTEGER(100),
-  chefDeClan INTEGER(10) NOT NULL,
-  CONSTRAINT PK_idClan PRIMARY KEY idClan,
-  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY chefDeClan REFERENCES Village(idVillage)
+  membresMax NUMBER(10) NOT NULL,
+  niveauClan NUMBER(10) NOT NULL,
+  tropheesMinimum NUMBER(10),
+  chefDeClan NUMBER(10) NOT NULL,
+  CONSTRAINT PK_idClan PRIMARY KEY (idClan),
+  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (chefDeClan) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Troupe(
-  idTroupe INTEGER(10),
+  idTroupe NUMBER(10),
   nomTroupe VARCHAR(20) NOT NULL,
-  PV INTEGER(10) NOT NULL,
-  degats INTEGER(10) NOT NULL,
-  vitesseAttaque INTEGER(10) NOT NULL,
-  portee INTEGER(10) NOT NULL,
-  niveau INTEGER(10) NOT NULL DEFAULT 1,
-  placeOccupée INTEGER(10) NOT NULL,
-  prixElixir INTEGER(10) NOT NULL,
-  prixElixirNoir INTEGER(10) NOT NULL,
-  tempsFormation INTEGER(10) NOT NULL,
-  CONSTRAINT PK_IDTROUPE PRIMARY KEY idTroupe
+  PV NUMBER(10) NOT NULL,
+  degats NUMBER(10) NOT NULL,
+  vitesseAttaque NUMBER(10) NOT NULL,
+  portee NUMBER(10) NOT NULL,
+  niveau NUMBER(10) DEFAULT 1 NOT NULL ,
+  placeOccupee NUMBER(10) NOT NULL,
+  prixElixir NUMBER(10) NOT NULL,
+  prixElixirNoir NUMBER(10) NOT NULL,
+  tempsFormation NUMBER(10) NOT NULL,
+  CONSTRAINT PK_IDTROUPE PRIMARY KEY (idTroupe)
 );
 
 CREATE TABLE Camp(
-  idCamp INTEGER(10),
-  typeTroupe INTEGER(10) NOT NULL,
-  idVillage INTEGER(10) NOT NULL,
-  CONSTRAINT PK_IDCAMP PRIMARY KEY idCamp,
-  CONSTRAINT FK_typeTroupe FOREIGN KEY typeTroupe REFERENCES Troupe(idTroupe),
-  CONSTRAINT FK_idVillage FOREIGN KEY idVillage REFERENCES Village(idVillage)
+  idCamp NUMBER(10),
+  typeTroupe NUMBER(10) NOT NULL,
+  idVillage NUMBER(10) NOT NULL,
+  CONSTRAINT PK_IDCAMP PRIMARY KEY (idCamp),
+  CONSTRAINT FK_typeTroupe FOREIGN KEY (typeTroupe) REFERENCES Troupe(idTroupe),
+  CONSTRAINT FK_idVillage FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Heros(
-  idHeros INTEGER(10),
+  idHeros NUMBER(10),
   typeHeros ENUM('Reine des Archers', 'Roi des barbares', 'Grand Gardien', 'Championne Royale'),
   niveauHeros NUMERIC(2,0) DEFAULT 1,
-  vieHeros INTEGER(5),
-  idVillage INTEGER(10) NOT NULL,
-  CONSTRAINT PK_IDHEROS PRIMARY KEY idHeros,
-  CONSTRAINT FK_idVillage FOREIGN KEY idVillage REFERENCES Village(idVillage)
+  vieHeros NUMBER(5),
+  idVillage NUMBER(10) NOT NULL,
+  CONSTRAINT PK_IDHEROS PRIMARY KEY (idHeros),
+  CONSTRAINT FK_idVillage FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Reserves(
-  idReserve INTEGER(10),
+  idReserve NUMBER(10),
   typeReserve ENUM('Or', 'Elixir', 'ElixirNoir'),
-  quantiteMax INTEGER(10) DEFAULT 100,
-  quantite INTEGER(10) DEFAULT 0,
-  idVillage INTEGER(10) NOT NULL,
-  CONSTRAINT PK_IDRESERVE PRIMARY KEY idReserve,
-  CONSTRAINT FK_idVillageReserve FOREIGN KEY idVillage REFERENCES Village(idVillage)
+  quantiteMax NUMBER(10) DEFAULT 10,
+  quantite NUMBER(10) DEFAULT 0,
+  idVillage NUMBER(10) NOT NULL,
+  CONSTRAINT PK_IDRESERVE PRIMARY KEY (idReserve),
+  CONSTRAINT FK_idVillageReserve FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE GuerreDeClan(
-  idGuerre INTEGER(10),
-  idClan1 INTEGER(10) NOT NULL,
-  idClan2 INTEGER(10) NOT NULL,
+  idGuerre NUMBER(10),
+  idClan1 NUMBER(10) NOT NULL,
+  idClan2 NUMBER(10) NOT NULL,
   dateDebut TIMESTAMP NOT NULL,
   etoilesClan1 NUMERIC(3,0) DEFAULT 0,
   etoilesClan2 NUMERIC(3,0) DEFAULT 0,
-  CONSTRAINT PK_IDGUERRE PRIMARY KEY idGuerre,
-  CONSTRAINT FK_idClan1 FOREIGN KEY idClan1 REFERENCES Clan(idClan),
-  CONSTRAINT FK_idClan2 FOREIGN KEY idClan2 REFERENCES Clan(idClan)
+  CONSTRAINT PK_IDGUERRE PRIMARY KEY (idGuerre),
+  CONSTRAINT FK_idClan1 FOREIGN KEY (idClan1) REFERENCES Clan(idClan),
+  CONSTRAINT FK_idClan2 FOREIGN KEY (idClan2) REFERENCES Clan(idClan)
 );
 
 CREATE TABLE Attaque(
-  idAttaque INTEGER(10) NOT NULL,
-  idAttaquant INTEGER(10) NOT NULL,
-  idDefenseur INTEGER(10) NOT NULL,
-  nombreEtoiles INTEGER(10),
-  pourcentage INTEGER(100),
-  temps INTEGER(10),
-  elixirRecolte INTEGER(10),
-  orRecolte INTEGER(10),
-  elixirNoirRecolte INTEGER(10),
-  CONSTRAINT PK_idAttaque PRIMARY KEY idAttaque,
-  CONSTRAINT FK_idAttaquant FOREIGN KEY idAttaquant REFERENCES Village(idVillage),
-  CONSTRAINT FK_idDefenseur FOREIGN KEY idDefenseur REFERENCES Village(idVillage)
+  idAttaque NUMBER(10) NOT NULL,
+  idAttaquant NUMBER(10) NOT NULL,
+  idDefenseur NUMBER(10) NOT NULL,
+  nombreEtoiles NUMBER(10),
+  pourcentage NUMBER(10),
+  temps NUMBER(10),
+  elixirRecolte NUMBER(10),
+  orRecolte NUMBER(10),
+  elixirNoirRecolte NUMBER(10),
+  CONSTRAINT PK_idAttaque PRIMARY KEY (idAttaque),
+  CONSTRAINT FK_idAttaquant FOREIGN KEY (idAttaquant) REFERENCES Village(idVillage),
+  CONSTRAINT FK_idDefenseur FOREIGN KEY (idDefenseur) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE AttaqueDeGuerre(
-  idGuerre INTEGER(10) NOT NULL,
-  idAttaque INTEGER(10) NOT NULL,
+  idGuerre NUMBER(10) NOT NULL,
+  idAttaque NUMBER(10) NOT NULL,
   CONSTRAINT PK_IDATTAQUECLAN PRIMARY KEY (idGuerre, idAttaque),
-  CONSTRAINT FK_idGuerre FOREIGN KEY idGuerre REFERENCES GuerreDeClan(idGuerre),
-  CONSTRAINT FK_idAttaque FOREIGN KEY idAttaque REFERENCES Attaque(idAttaque)
+  CONSTRAINT FK_idGuerre FOREIGN KEY (idGuerre) REFERENCES GuerreDeClan(idGuerre),
+  CONSTRAINT FK_idAttaque FOREIGN KEY (idAttaque) REFERENCES Attaque(idAttaque)
 );
+
+/*
+*************************************************
+*/
+
+
+/*
+Ajout des clés étrangères nécessitant une table
+*/
+
+prompt "Ajout des clés etrangères"
+
+ALTER TABLE "Village" ADD CONSTRAINT FK_idClan FOREIGN KEY ("idClan") REFERENCES "Clan" ("idClan");
