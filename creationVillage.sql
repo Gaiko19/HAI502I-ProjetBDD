@@ -153,7 +153,6 @@ CREATE TABLE Troupe(
   degats NUMBER(10) NOT NULL,
   vitesseAttaque NUMBER(10) NOT NULL,
   portee NUMBER(10) NOT NULL,
-  niveau NUMBER(10) DEFAULT 1 NOT NULL ,
   placeOccupee NUMBER(10) NOT NULL,
   prixElixir NUMBER(10) NOT NULL,
   prixElixirNoir NUMBER(10) NOT NULL,
@@ -183,7 +182,7 @@ CREATE TABLE Heros(
 CREATE TABLE Reserves(
   idReserve NUMBER(10),
   typeReserve VARCHAR(10) CHECK( typeReserve IN ('Or', 'Elixir', 'ElixirNoir')),
-  quantiteMax NUMBER(10) DEFAULT 10,
+  quantiteMax NUMBER(10) DEFAULT 10000000,
   quantite NUMBER(10) DEFAULT 0,
   idVillage NUMBER(10) NOT NULL,
   CONSTRAINT PK_IDRESERVE PRIMARY KEY (idReserve),

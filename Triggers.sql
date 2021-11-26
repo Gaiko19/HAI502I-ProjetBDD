@@ -21,3 +21,7 @@ FOR EACH ROW
 UPDATE capaciteeCampMax
 SET capaciteeCampMax = capaciteeCampMax + 50;
 
+/*
+[trigger pour créer une troupe en vérifiant qu'on a la place et les sous]
+[trigger pour ajouter l'argent gagné après une attaque et l'enlever au défenseur]
+*/
