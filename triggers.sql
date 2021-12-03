@@ -24,9 +24,14 @@ BEFORE INSERT ON Village
 DECLARE
   id_vil number;
 BEGIN
-  SELECT MAX(idVillage) INTO id_vil FROM Village
-  capa := calculCapaMax(niv)
   IF :new.niveauJoueur IS NULL THEN :new.niveauJoueur := 1
+  ENF IF;
+
+  :new.capaciteeCampMax := calculCapaMax(:new.niveauJoueur)
+  
+  IF :new.idVillage IS NULL THEN 
+  SELECT MAX(idVillage) INTO id_vil FROM Village
+  ENF IF;
 END;
 
 
