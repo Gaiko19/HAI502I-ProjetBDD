@@ -15,8 +15,7 @@ SET membresMax = membresMax - 1
 WHERE Clan.idVillage = old.idVillage;
 
 CREATE OR REPLACE TRIGGER AjoutVillage
-AFTER INSERT
-ON Village
+AFTER INSERT ON Village
 FOR EACH ROW 
 UPDATE capaciteeCampMax
 SET capaciteeCampMax = capaciteeCampMax + 50;
