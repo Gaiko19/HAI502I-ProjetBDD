@@ -1,14 +1,5 @@
 prompt -Lancement des Triggers
 
-/* [Trigger Nom du joueur en majuscule] */
-CREATE OR REPLACE TRIGGER NomJoueurMajuscule
-BEFORE INSERT ON Village
-FOR EACH ROW
-BEGIN
-  :new.nomJoueur := UPPER(:new.nomJoueur);
-END;
-/
-
 /* [Trigger Nom de la troupe en majuscule] */
 CREATE OR REPLACE TRIGGER NomTroupeMajuscule
 BEFORE INSERT ON Troupe
@@ -27,17 +18,20 @@ BEGIN
 END;
 /
 
-/*[Trigger pour ajouter un nouveau village avec uniquement le nom du joueur]*/
+/*[Trigger pour ajouter un nouveau village avec uniquement le nom du joueur et Nom du joueur en majuscule]*/
 
 /*
 INSERT INTO Village VALUES (idVillage, nomJoueur, niveauJoueur, capaciteeCampMax, trophees, idClan);
 */
 
 CREATE OR REPLACE TRIGGER nouveauVillage
-BEFORE INSERT ON Village 
+BEFORE INSERT ON Village
+FOR EACH ROW
 DECLARE
   id_vil number;
 BEGIN
+  :new.nomJoueur := UPPER(:new.nomJoueur);
+  
   IF :new.niveauJoueur IS NULL THEN :new.niveauJoueur := 1;
   ENF IF;
 
@@ -47,18 +41,20 @@ BEGIN
   ENF IF;
 END;
 /
-/
+
 /*[trigger pour créer une troupe en vérifiant qu'on a la place et les sous]*/
 /*
 
 CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
-IF :new.idVillage.capaciteeCampMax :
-
-
-prompt -Triggers lancés
+BEGIN
+  IF (:new.idVillage.capaciteeCampMax >= (SELECT SUM(placeOccupee) FROM Camp, Troupe WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage) + :new.typeTroupe.) AND (SELECT quantite FROM Reserves WHERE Reserves.idVillage == :new.idVillage AND typeReserve == 'E' THEN 
+  /* /!\ Là j'ai vérifié si la capa max du village était >= à la capa prise par les troupes du village + la troupe ajoutée, mais jsp comment faire pour rejeter le INSERT si jamais y a pas la place*/
 
 */
+prompt -Triggers lancés
+
+
 
 /*
 à faire :
