@@ -4,7 +4,8 @@ prompt -Lancement des Triggers
 CREATE OR REPLACE TRIGGER NomJoueurMajuscule
 BEFORE INSERT ON Village
 FOR EACH ROW
-SET :new.nomJoueur = UPPER(:new.nomJoueur);
+BEGIN
+  :new.nomJoueur := UPPER(:new.nomJoueur);
 END;
 /
 
@@ -12,7 +13,8 @@ END;
 CREATE OR REPLACE TRIGGER NomTroupeMajuscule
 BEFORE INSERT ON Troupe
 FOR EACH ROW
-SET :new.nomTroupe = UPPER(:new.nomTroupe);
+BEGIN
+  :new.nomTroupe := UPPER(:new.nomTroupe);
 END;
 /
 
@@ -20,7 +22,8 @@ END;
 CREATE OR REPLACE TRIGGER SupprimerJoueurClan
 AFTER DELETE ON Village
 FOR EACH ROW 
-UPDATE clan SET membresMax = (membresMax - 1) WHERE Clan.idVillage = :old.idVillage;
+BEGIN
+  UPDATE clan SET membresMax = (membresMax - 1) WHERE Clan.idVillage = :old.idVillage;
 END;
 /
 
@@ -44,15 +47,22 @@ BEGIN
   ENF IF;
 END;
 /
+/
+/*[trigger pour créer une troupe en vérifiant qu'on a la place et les sous]*/
+/*
+
+CREATE OR REPLACE TRIGGER nouvelleTroupe
+BEFORE INSERT ON Camp
+IF :new.idVillage.capaciteeCampMax :
+
 
 prompt -Triggers lancés
 
-
+*/
 
 /*
 à faire :
 
-[trigger pour créer une troupe en vérifiant qu'on a la place et les sous]
 [trigger pour ajouter l'argent gagné après une attaque et l'enlever au défenseur]
 [trigger pour ajouter les trophés gagnés après une attaque et les enlever au défenseur]
 [trigger pour voir si il reste une place dans le clan qd un mec rejoins (max 50) et si il a le nombre de trophées requis]
