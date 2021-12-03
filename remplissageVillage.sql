@@ -59,4 +59,4 @@ INSERT INTO Clan VALUES (4,'Les Zelus','MONTPELLIER',1,1)
 /*
 INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,date,etoiles1,etoiles2)
 */
-INSERT INTO GuerreDeClan VALUES (01,01,02,0,0)
+INSERT INTO GuerreDeClan VALUES (01,01,02,0,0);
