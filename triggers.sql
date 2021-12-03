@@ -1,37 +1,41 @@
-/* 
-Nom du joueur en majuscule 
-*/
-
+/* [Trigger Nom du joueur en majuscule] */
 CREATE OR REPLACE TRIGGER NomJoueurMajuscule
 BEFORE INSERT ON Village
 FOR EACH ROW
-SET NEW.nomJoueur = UPPER(NEW.nomJoueur);
+SET :new.nomJoueur = UPPER(:new.nomJoueur);
 
+/* [trigger pour actualiser le nombre de joueurs dans un clan lors de la suppression d'un joueur] */
 CREATE OR REPLACE TRIGGER SupprimerJoueurClan
 AFTER DELETE ON Village
 FOR EACH ROW 
 UPDATE clan 
 SET membresMax = membresMax - 1
-WHERE Clan.idVillage = old.idVillage;
+WHERE Clan.idVillage = :old.idVillage;
 
-CREATE OR REPLACE TRIGGER AjoutVillage
-AFTER INSERT ON Village
-FOR EACH ROW 
-UPDATE capaciteeCampMax
-SET capaciteeCampMax = capaciteeCampMax + 50;
+
+/*[Trigger pour ajouter un nouveau village avec uniquement le nom du joueur]*/
+
+/*
+INSERT INTO Village VALUES (idVillage, nomJoueur, niveauJoueur, capaciteeCampMax, trophees, idClan);
+*/
 
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village 
-FOR EACH ROW
-WHEN (new.no_line > 0)
 DECLARE
-  evol_exemple number;
+  id_vil number;
 BEGIN
-  evol_exemple := :new.exemple  - :old.exemple;
-  DBMS_OUTPUT.PUT_LINE('  evolution : ' || evol_exemple);
+  SELECT MAX(idVillage) INTO id_vil FROM Village
+  capa := calculCapaMax(niv)
+  IF :new.niveauJoueur IS NULL THEN :new.niveauJoueur := 1
 END;
 
+
+
 /*
+à faire :
+
 [trigger pour créer une troupe en vérifiant qu'on a la place et les sous]
 [trigger pour ajouter l'argent gagné après une attaque et l'enlever au défenseur]
+[trigger pour ajouter les trophés gagnés après une attaque et les enlever au défenseur]
+[trigger pour voir si il reste une place dans le clan qd un mec rejoins (max 50) et si il a le nombre de trophées requis]
 */
