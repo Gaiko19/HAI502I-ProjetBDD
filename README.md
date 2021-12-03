@@ -1,5 +1,5 @@
 # Projet HAI502I Bases de Données
-## Par : Arnaud C, Gatien H, Maxime B, Adam S
+## Par : Arnaud C, Maxime B, Gatien H, Adam S
 ### Mise en place d'une base de donnée reprenant celle du jeu Clash Of Clans
 
 
