@@ -6,3 +6,5 @@
 
 ### Schema entité-association de la BDD :
 <img src="https://github.com/Gaiko19/ProjetBDD/blob/main/schemaEA-BDD.svg">
+
+{google_docs}https://docs.google.com/spreadsheets/d/18QR7X3Z75zIDVxnE2cesARQgT5fr3k29q5gPsQXQiQI{/google_docs}
