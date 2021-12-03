@@ -153,7 +153,7 @@ CREATE TABLE Camp(
   idCamp NUMBER(10),
   typeTroupe NUMBER(10) NOT NULL,
   idVillage NUMBER(10) NOT NULL,
-  nbrTroupe NUMBER(10) DEFAULT 1;
+  nbrTroupe NUMBER(10) DEFAULT 1,
   CONSTRAINT PK_IDCAMP PRIMARY KEY (idCamp),
   CONSTRAINT FK_typeTroupe FOREIGN KEY (typeTroupe) REFERENCES Troupe(idTroupe),
   CONSTRAINT FK_idVillageCamp FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
@@ -191,7 +191,7 @@ CREATE TABLE GuerreDeClan(
 );
 
 CREATE TABLE Attaque(
-  idAttaque NUMBER(10) NOT NULL,sql into schema
+  idAttaque NUMBER(10) NOT NULL,
   idAttaquant NUMBER(10) NOT NULL,
   idDefenseur NUMBER(10) NOT NULL,
   nombreEtoiles NUMBER(10),
