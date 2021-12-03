@@ -1,3 +1,7 @@
+/*
+Tu fais quoi ?
+*/
+
 /* Toutes les troupes différentes du village de 'MateoDu13' (group by) */
 SELECT Troupe.nomTroupe FROM Troupe, Camp, Village
 WHERE Troupe.idTroupe=Camp.typeTroupe
