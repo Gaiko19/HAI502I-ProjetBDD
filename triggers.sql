@@ -5,6 +5,7 @@ CREATE OR REPLACE TRIGGER NomJoueurMajuscule
 BEFORE INSERT ON Village
 FOR EACH ROW
 SET :new.nomJoueur = UPPER(:new.nomJoueur);
+END;
 /
 
 /* [Trigger Nom de la troupe en majuscule] */
@@ -12,14 +13,15 @@ CREATE OR REPLACE TRIGGER NomTroupeMajuscule
 BEFORE INSERT ON Troupe
 FOR EACH ROW
 SET :new.nomTroupe = UPPER(:new.nomTroupe);
+END;
 /
 
 /* [trigger pour actualiser le nombre de joueurs dans un clan lors de la suppression d'un joueur] */
 CREATE OR REPLACE TRIGGER SupprimerJoueurClan
 AFTER DELETE ON Village
 FOR EACH ROW 
-UPDATE clan SET membresMax = membresMax - 1;
-WHERE Clan.idVillage = :old.idVillage;
+UPDATE clan SET membresMax = (membresMax - 1) WHERE Clan.idVillage = :old.idVillage;
+END;
 /
 
 /*[Trigger pour ajouter un nouveau village avec uniquement le nom du joueur]*/
@@ -41,6 +43,7 @@ BEGIN
   IF :new.idVillage IS NULL THEN SELECT MAX(idVillage) INTO id_vil FROM Village;
   ENF IF;
 END;
+/
 
 prompt -Triggers lancés
 
