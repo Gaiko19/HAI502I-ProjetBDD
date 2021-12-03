@@ -148,7 +148,7 @@ CREATE TABLE Clan(
 
 CREATE TABLE Troupe(
   idTroupe NUMBER(10),
-  nomTroupe VARCHAR(20) NOT NULL,
+  nomTroupe VARCHAR(30) NOT NULL,
   PV NUMBER(10) NOT NULL,
   degats NUMBER(10) NOT NULL,
   vitesseAttaque NUMBER(10) NOT NULL,
