@@ -1,13 +1,6 @@
 /*  ==============================
     |  Suppression des relations |
     ==============================
-*/  
-
-/*
-*************************************************
-ATTENTION NE PAS TOUCHER AUX LIGNES SUIVANTES
-ELLES PERMETTENT DE SUPPRIMER PROPREMENT LES RELATIONS
-*************************************************
 */
 
 prompt "Suppression des relations"
@@ -104,9 +97,9 @@ END;
 /
 
 
-/*
-*************************************************
-*/
+
+-- *************************************************
+
 
 
 /*  ===========================
@@ -212,10 +205,8 @@ CREATE TABLE AttaqueDeGuerre(
   CONSTRAINT FK_idAttaque FOREIGN KEY (idAttaque) REFERENCES Attaque(idAttaque)
 );
 
-/*
-*************************************************
-*/
 
+-- *************************************************
 
 /*  ====================
     |  Clés Etrangères |

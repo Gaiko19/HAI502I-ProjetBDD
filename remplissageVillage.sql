@@ -1,7 +1,5 @@
-/*
-INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
-*/
 
+--INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
 INSERT INTO Troupe VALUES (1,'BARBARE',100,30,1,250,0);
 INSERT INTO Troupe VALUES (2,'ARCHERE',50,25,1,500,0);
 INSERT INTO Troupe VALUES (3,'GEANT',1250,100,5,3500,0);
@@ -27,36 +25,32 @@ INSERT INTO Troupe VALUES (22,'BOULISTE',310,50,6,0,90);
 INSERT INTO Troupe VALUES (23,'GOLEM DE GLACE',2600,12,15,0,300);
 INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
-/*
-INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
-*/
-INSERT INTO Village VALUES (1, 'MateoDu13', 1, 260, 12, NULL);
-INSERT INTO Village VALUES (2, 'MAXIME', 125, 240, 2800, NULL);
-INSERT INTO Village VALUES (3, 'ADAM', 53, 160, 600, NULL);
-INSERT INTO Village VALUES (4, 'ARNAUD', 75, 200, 800, NULL);
-INSERT INTO Village VALUES (5, 'BLAISE', 47, 120, 1200, NULL);
-INSERT INTO Village VALUES (6, 'DOOBY', 26, 80, 50, NULL);
-INSERT INTO Village VALUES (7, 'AROUF', 210, 320, 4500, NULL);
-INSERT INTO Village VALUES (8, 'LACRIM', 92, 220, 2000, NULL);
-INSERT INTO Village VALUES (9, 'EPHEM', 111, 240, 2100, NULL);
-INSERT INTO Village VALUES (10, 'GAZO', 136, 260, 2500, NULL);
-INSERT INTO Village SET (nomJoueur) VALUES ('GATIEN');
 
-/*
-INSERT INTO Attaque VALUES (ID,id_atk,id_def,nb_etoiles,pourcentage,elixir,or,elixir_noir);
-*/
+--INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (1, 'MateoDu13', 1, 12);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (2, 'MAXIME', 125, 2800);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (3, 'ADAM', 53, 600);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (4, 'ARNAUD', 75, 800);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (5, 'BLAISE', 47, 1200);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (6, 'DOOBY', 26, 50);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (7, 'AROUF', 210, 4500);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (8, 'LACRIM', 92, 2000);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (9, 'EPHEM', 111, 2100);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (10, 'GAZO', 136, 2500);
+INSERT INTO Village(idVillage, nomJoueur) VALUES (11, 'GATIEN');
+
+
+--INSERT INTO Attaque VALUES (ID,id_atk,id_def,nb_etoiles,pourcentage,elixir,or,elixir_noir);
 INSERT INTO Attaque VALUES (1,0002,0001,2,67,928680,874315,8436);
 INSERT INTO Attaque VALUES (2,0001,0007,1,52,125864,130221,589);
 
-/*
-INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef)
-*/
+
+--INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef)
 INSERT INTO Clan VALUES (1,'GNUMZ','FR',15,3);
 INSERT INTO Clan VALUES (2,'FC GANGST','US',12,7);
 INSERT INTO Clan VALUES (3,'LES ZOULETTES','ES',4,6);
 INSERT INTO Clan VALUES (4,'LES ZELUS','MONTPELLIER',1,1);
 
-/*
-INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,date,etoiles1,etoiles2)
-*/
+
+--INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,date,etoiles1,etoiles2)
 INSERT INTO GuerreDeClan VALUES (1,1,2,0,0);
