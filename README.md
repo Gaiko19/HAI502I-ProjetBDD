@@ -5,4 +5,3 @@
 
 
 ### Schema entité-association de la BDD :
-<img src="https://github.com/Gaiko19/ProjetBDD/blob/main/schemaEA-BDD.svg">
