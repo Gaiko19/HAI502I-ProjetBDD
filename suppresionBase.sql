@@ -109,14 +109,13 @@ END;
 
 prompt "Suppression des Fonctions"
 
-BEGIN
-EXECUTE IMMEDIATE 'DROP PROCEDURE calculCapaMax';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -942 THEN
-  RAISE;
-  END IF;
-END;
+begin
+   execute immediate 'drop procedure calculCapaMax';
+exception when others then
+   if sqlcode != -4043 or SQLCODE != -955 then
+      raise;
+   end if;
+end;
 /
 
 BEGIN

@@ -9,7 +9,7 @@ prompt "Suppression des Fonctions"
 begin
    execute immediate 'drop procedure calculCapaMax';
 exception when others then
-   if sqlcode != -4043 then
+   if sqlcode != -4043 or SQLCODE != -955 then
       raise;
    end if;
 end;

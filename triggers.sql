@@ -9,7 +9,7 @@ BEGIN
 EXECUTE IMMEDIATE 'DROP TRIGGER NomTroupeMajuscule ';
 EXCEPTION
  WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
+  IF SQLCODE != -955 THEN
   RAISE;
   END IF;
 END;
@@ -146,7 +146,7 @@ FOR EACH ROW
 DECLARE
   qMax;
 BEGIN
-  qMax := calculQuantiteMax(:new.idVillage);
+  SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idvillage = :new.idVillage;
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'OR', qMax);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIR', qMax);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax);
@@ -168,10 +168,10 @@ BEGIN
     SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
     SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
 
-    IF nbMembres <= 0 THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
+    IF (nbMembres <= 0) THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
     ELSIF (:new.idVillage == idChef) THEN BEGIN
-      SELECT idVillage INTO nouveauChef FROM Village WHERE idClan = :old.idClan FETCH FIRST 1 ROWS ONLY;
-      UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan
+      SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
+      UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan
       END;
     END IF;
     END;
@@ -186,14 +186,14 @@ CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (trophees += :new.tropheesPris) WHERE (idVillage=idAttaquant);
-  UPDATE Reserves SET (quantite += :new.orRecolte) WHERE (idVillage=idAttaquant AND typeReserve='OR');
-  UPDATE Reserves SET (quantite += :new.elixirRecolte) WHERE (idVillage=idAttaquant AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite += :new.elixirNoirRecolte) WHERE (idVillage=idAttaquant AND typeReserve='ELIXIRNOIR');
-  UPDATE Village SET (trophees -= :new.tropheesPris) WHERE (idVillage=idDefenseur);
-  UPDATE Reserves SET (quantite -= :new.orRecolte) WHERE (idVillage=idDefenseur AND typeReserve='OR');
-  UPDATE Reserves SET (quantite -= :new.elixirRecolte) WHERE (idVillage=idDefenseur AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite -= :new.elixirNoirRecolte) WHERE (idVillage=idDefenseur AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET (trophees += :new.tropheesPris) WHERE (idVillage=:new.idAttaquant);
+  UPDATE Reserves SET (quantite += :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
+  UPDATE Reserves SET (quantite += :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
+  UPDATE Reserves SET (quantite += :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET (trophees -= :new.tropheesPris) WHERE (idVillage=:new.idDefenseur);
+  UPDATE Reserves SET (quantite -= :new.orRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
+  UPDATE Reserves SET (quantite -= :new.elixirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
+  UPDATE Reserves SET (quantite -= :new.elixirNoirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
 END;
 /
 
@@ -232,7 +232,7 @@ prompt "Trigger RejoindreChefClan"
 
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
-AFTER CREATE ON Clan
+AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
   UPDATE Village SET (idClan = :new.idClan) WHERE idVillage = :new.idChefDeClan;
