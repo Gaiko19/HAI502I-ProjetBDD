@@ -2,43 +2,17 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
-<svg width="702" height="433" view_box="0 0 702 433"
+<svg width="694" height="433" view_box="0 0 694 433"
 xmlns="http://www.w3.org/2000/svg"
-xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 le Wed, 08 Dec 2021 09:05:43</desc>
+xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 le Fri, 10 Dec 2021 02:07:59</desc>
 
-<rect id="frame" x="0" y="0" width="702" height="433" fill="#f7f7f7" stroke="none" stroke-width="0"/>
-
-<!-- Association Lance -->
-<line x1="637" y1="187" x2="637" y2="60" stroke="#4393c3" stroke-width="2"/>
-<text x="642.0" y="111" fill="#b2182b" font-family="Verdana" font-size="12">0,1</text>
-<line x1="494" y1="60" x2="637" y2="60" stroke="#4393c3" stroke-width="2"/>
-<text x="538" y="77.0" fill="#b2182b" font-family="Verdana" font-size="12">2,2</text>
-<g id="association-Lance">
-	<path d="M 648 35 a 14 14 90 0 1 14 14 V 60 h -50 V 49 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
-	<path d="M 662 60.0 v 11 a 14 14 90 0 1 -14 14 H 626 a 14 14 90 0 1 -14 -14 V 60.0 H 50" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
-	<rect x="612" y="35" width="50" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
-	<line x1="612" y1="60" x2="662" y2="60" stroke="#4393c3" stroke-width="1"/>
-	<text x="619" y="52.7" fill="#000000" font-family="Verdana" font-size="12">Lance</text>
-</g>
-
-<!-- Association Attaque de Clan -->
-<line x1="494" y1="339" x2="637" y2="339" stroke="#4393c3" stroke-width="2"/>
-<text x="554" y="356.0" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
-<line x1="637" y1="187" x2="637" y2="339" stroke="#4393c3" stroke-width="2"/>
-<text x="642.0" y="272" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
-<g id="association-Attaque de Clan">
-	<path d="M 679 314 a 14 14 90 0 1 14 14 V 339 h -112 V 328 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
-	<path d="M 693 339.0 v 11 a 14 14 90 0 1 -14 14 H 595 a 14 14 90 0 1 -14 -14 V 339.0 H 112" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
-	<rect x="581" y="314" width="112" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
-	<line x1="581" y1="339" x2="693" y2="339" stroke="#4393c3" stroke-width="1"/>
-	<text x="588" y="331.7" fill="#000000" font-family="Verdana" font-size="12">Attaque de Clan</text>
-</g>
+<rect id="frame" x="0" y="0" width="694" height="433" fill="#f7f7f7" stroke="none" stroke-width="0"/>
 
 <!-- Association Appartient à -->
 <line x1="344" y1="187" x2="494" y2="187" stroke="#4393c3" stroke-width="2"/>
 <text x="409" y="204.0" fill="#b2182b" font-family="Verdana" font-size="12">0,1</text>
 <line x1="494" y1="60" x2="494" y2="187" stroke="#4393c3" stroke-width="2"/>
-<text x="499.0" y="128" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
+<text x="467.0" y="128" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
 <g id="association-Appartient à">
 	<path d="M 525 162 a 14 14 90 0 1 14 14 V 187 h -90 V 176 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
 	<path d="M 539 187.0 v 11 a 14 14 90 0 1 -14 14 H 463 a 14 14 90 0 1 -14 -14 V 187.0 H 90" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
@@ -63,22 +37,22 @@ xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 l
 <!-- Association Camp du Village -->
 <line x1="56" y1="339" x2="192" y2="339" stroke="#4393c3" stroke-width="2"/>
 <text x="108" y="356.0" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
-<line x1="344" y1="187" x2="192" y2="339" stroke="#4393c3" stroke-width="2"/>
-<text x="282.929" y="263" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M344 187 C 270.833333333 203.166666667 220.166666667 253.833333333 192 339" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="257" y="245.929" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
 <g id="association-Camp du Village">
 	<path d="M 235 314 a 14 14 90 0 1 14 14 V 339 h -114 V 328 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
 	<path d="M 249 339.0 v 11 a 14 14 90 0 1 -14 14 H 149 a 14 14 90 0 1 -14 -14 V 339.0 H 114" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
 	<rect x="135" y="314" width="114" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
 	<line x1="135" y1="339" x2="249" y2="339" stroke="#4393c3" stroke-width="1"/>
 	<text x="142" y="331.7" fill="#000000" font-family="Verdana" font-size="12">Camp du Village</text>
-	<text x="142" y="356.8" fill="#000000" font-family="Verdana" font-size="12">capaciteMax</text>
+	<text x="142" y="356.8" fill="#000000" font-family="Verdana" font-size="12">nbrTroupes</text>
 </g>
 
 <!-- Association Heros Du Village -->
 <line x1="56" y1="187" x2="192" y2="187" stroke="#4393c3" stroke-width="2"/>
 <text x="104" y="204.0" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
 <line x1="344" y1="187" x2="192" y2="187" stroke="#4393c3" stroke-width="2"/>
-<text x="258" y="204.0" fill="#b2182b" font-family="Verdana" font-size="12">0,1</text>
+<text x="257" y="204.0" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
 <g id="association-Heros Du Village">
 	<path d="M 236 162 a 14 14 90 0 1 14 14 V 187 h -116 V 176 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
 	<path d="M 250 187.0 v 11 a 14 14 90 0 1 -14 14 H 148 a 14 14 90 0 1 -14 -14 V 187.0 H 116" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
@@ -88,8 +62,10 @@ xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 l
 </g>
 
 <!-- Association Attaque de Village -->
-<line x1="344" y1="187" x2="344" y2="339" stroke="#4393c3" stroke-width="2"/>
-<text x="349.0" y="263" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M344 187 C 386.666666667 231.666666667 386.666666667 282.333333333 344 339" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="348.0" y="263" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M344 187 C 301.333333333 231.666666667 301.333333333 282.333333333 344 339" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="318.0" y="263" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
 <line x1="494" y1="339" x2="344" y2="339" stroke="#4393c3" stroke-width="2"/>
 <text x="413" y="356.0" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
 <g id="association-Attaque de Village">
@@ -111,6 +87,22 @@ xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 l
 	<rect x="286" y="35" width="116" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
 	<line x1="286" y1="60" x2="402" y2="60" stroke="#4393c3" stroke-width="1"/>
 	<text x="293" y="52.7" fill="#000000" font-family="Verdana" font-size="12">Est Chef de Clan</text>
+</g>
+
+<!-- Association GuerreDeClan -->
+<path d="M494 60 C 559.499212752 48.3064678077 604.165879419 90.639801141 628 187" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="538" y="83.1971002556" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<path d="M494 60 C 485.834120581 126.03184065 530.500787248 168.365173983 628 187" fill="none" stroke="#4393c3" stroke-width="2"/>
+<text x="514.197100256" y="128" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<line x1="494" y1="339" x2="628" y2="187" stroke="#4393c3" stroke-width="2"/>
+<text x="554" y="287.169062103" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+<g id="association-GuerreDeClan">
+	<path d="M 671 162 a 14 14 90 0 1 14 14 V 187 h -114 V 176 a 14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
+	<path d="M 685 187.0 v 11 a 14 14 90 0 1 -14 14 H 585 a 14 14 90 0 1 -14 -14 V 187.0 H 114" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
+	<rect x="571" y="162" width="114" height="50" fill="none" rx="14" stroke="#4393c3" stroke-width="2"/>
+	<line x1="571" y1="187" x2="685" y2="187" stroke="#4393c3" stroke-width="1"/>
+	<text x="585" y="179.7" fill="#000000" font-family="Verdana" font-size="12">GuerreDeClan</text>
+	<text x="578" y="204.8" fill="#000000" font-family="Verdana" font-size="12">nbrAttaquesMax</text>
 </g>
 
 <!-- Entity Clan -->
@@ -215,23 +207,5 @@ xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 l
 	<text x="14" y="373.8" fill="#000000" font-family="Verdana" font-size="12">placeOccupee</text>
 	<text x="14" y="390.8" fill="#000000" font-family="Verdana" font-size="12">prixElixir</text>
 	<text x="14" y="407.8" fill="#000000" font-family="Verdana" font-size="12">prixElixirNoir</text>
-</g>
-
-<!-- Entity GuerreDeClan -->
-<g id="entity-GuerreDeClan">
-	<g id="frame-GuerreDeClan">
-		<rect x="589" y="119" width="96" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
-		<rect x="589" y="144.0" width="96" height="111" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
-		<rect x="589" y="119" width="96" height="136" fill="none" stroke="#d6604d" stroke-width="2"/>
-		<line x1="589" y1="144" x2="685" y2="144" stroke="#d6604d" stroke-width="1"/>
-	</g>
-	<text x="594" y="136.7" fill="#000000" font-family="Verdana" font-size="12">GuerreDeClan</text>
-	<text x="594" y="161.7" fill="#000000" font-family="Verdana" font-size="12">idGuerre</text>
-	<line x1="594" y1="164" x2="647" y2="164" stroke="#000000" stroke-width="1"/>
-	<text x="594" y="178.7" fill="#000000" font-family="Verdana" font-size="12">idClan1</text>
-	<text x="594" y="195.8" fill="#000000" font-family="Verdana" font-size="12">idClan2</text>
-	<text x="594" y="212.8" fill="#000000" font-family="Verdana" font-size="12">dateDebut</text>
-	<text x="594" y="229.8" fill="#000000" font-family="Verdana" font-size="12">etoilesClan1</text>
-	<text x="594" y="246.8" fill="#000000" font-family="Verdana" font-size="12">etoilesClan2</text>
 </g>
 </svg>
