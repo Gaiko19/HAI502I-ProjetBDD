@@ -1,7 +1,7 @@
-/*
-INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
-*/
+prompt "Insertion des tubles Troupe"
 
+
+--INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
 INSERT INTO Troupe VALUES (1,'BARBARE',100,30,1,250,0);
 INSERT INTO Troupe VALUES (2,'ARCHERE',50,25,1,500,0);
 INSERT INTO Troupe VALUES (3,'GEANT',1250,100,5,3500,0);
@@ -27,36 +27,103 @@ INSERT INTO Troupe VALUES (22,'BOULISTE',310,50,6,0,90);
 INSERT INTO Troupe VALUES (23,'GOLEM DE GLACE',2600,12,15,0,300);
 INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
-/*
-INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
-*/
-INSERT INTO Village VALUES (1, 'MateoDu13', 1, 260, 12, NULL);
-INSERT INTO Village VALUES (2, 'MAXIME', 125, 240, 2800, NULL);
-INSERT INTO Village VALUES (3, 'ADAM', 53, 160, 600, NULL);
-INSERT INTO Village VALUES (4, 'ARNAUD', 75, 200, 800, NULL);
-INSERT INTO Village VALUES (5, 'BLAISE', 47, 120, 1200, NULL);
-INSERT INTO Village VALUES (6, 'DOOBY', 26, 80, 50, NULL);
-INSERT INTO Village VALUES (7, 'AROUF', 210, 320, 4500, NULL);
-INSERT INTO Village VALUES (8, 'LACRIM', 92, 220, 2000, NULL);
-INSERT INTO Village VALUES (9, 'EPHEM', 111, 240, 2100, NULL);
-INSERT INTO Village VALUES (10, 'GAZO', 136, 260, 2500, NULL);
-INSERT INTO Village SET (nomJoueur) VALUES ('GATIEN');
+prompt "Insertion des tubles Village"
 
-/*
-INSERT INTO Attaque VALUES (ID,id_atk,id_def,nb_etoiles,pourcentage,elixir,or,elixir_noir);
-*/
-INSERT INTO Attaque VALUES (1,0002,0001,2,67,928680,874315,8436);
-INSERT INTO Attaque VALUES (2,0001,0007,1,52,125864,130221,589);
+--INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (1, 'MATEODU13', 10, 12, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (2, 'MAXIME', 125, 2800, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (3, 'ADAM', 53, 600, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (4, 'ARNAUD', 75, 800, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (5, 'BLAISE', 47, 1200, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (6, 'DOOBY', 26, 50, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (7, 'AROUF', 210, 4500, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (8, 'LACRIM', 92, 2000, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (9, 'DIAMS', 111, 2100, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (10, 'GAZO', 136, 2500, null);
+INSERT INTO Village(idVillage, nomJoueur) VALUES (11, 'GATIEN');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (12, 'THOMAS');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (13, 'ECHARPE');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (14, 'CUISINE');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (15, 'DARK');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (16, 'WHITE');
+INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
 
-/*
-INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef)
-*/
+prompt "Insertion des tubles Heros"
+
+--INSERT INTO Heros VALUES (id,type,niveau,idVillage);
+INSERT INTO Heros VALUES (001,'Roi des Barbares',50,11);
+INSERT INTO Heros VALUES (002,'Reine des Archers',50,11);
+INSERT INTO Heros VALUES (003,'Grand Gardien',30,11);
+INSERT INTO Heros VALUES (004,'Roi des Barbares',40,2);
+INSERT INTO Heros VALUES (005,'Reine des Archers',40,2);
+INSERT INTO Heros VALUES (006,'Grand Gardien',5,2);
+INSERT INTO Heros VALUES (007,'Roi des Barbares',10,4);
+INSERT INTO Heros VALUES (008,'Roi des Barbares',85,7);
+INSERT INTO Heros VALUES (009,'Reine des Archers',85,7);
+INSERT INTO Heros VALUES (010,'Grand Gardien',55,7);
+INSERT INTO Heros VALUES (011,'Championne Royale',30,7);
+INSERT INTO Heros VALUES (012,'Roi des Barbares',20,8);
+INSERT INTO Heros VALUES (013,'Reine des Archers',10,8);
+INSERT INTO Heros VALUES (014,'Roi des Barbares',35,9);
+INSERT INTO Heros VALUES (015,'Reine des Archers',30,9);
+INSERT INTO Heros VALUES (016,'Roi des Barbares',40,10);
+INSERT INTO Heros VALUES (017,'Reine des Archers',45,10);
+INSERT INTO Heros VALUES (018,'Grand Gardien',10,10);
+
+prompt "Insertion des tubles Attaque"
+
+--INSERT INTO Attaque VALUES (id,idAtt,idDef,trophees,etoiles,%,or,elix,noir,idGuerre);
+INSERT INTO Attaque VALUES (1,2,1,2,67,928680,874315,8436,null);
+INSERT INTO Attaque VALUES (2,1,7,1,52,125864,130221,589,null);
+INSERT INTO Attaque VALUES (3,8,3,0,3,100,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (4,3,8,0,1,42,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (5,4,9,0,2,68,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (6,7,11,0,3,100,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (7,2,10,0,2,75,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (8,11,7,0,2,51,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (9,10,2,0,2,89,100000,100000,1000,1);
+INSERT INTO Attaque VALUES (10,9,4,0,1,77,100000,100000,1000,1);
+
+prompt "Insertion des tubles Clan"
+
+--INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
 INSERT INTO Clan VALUES (1,'GNUMZ','FR',15,3);
 INSERT INTO Clan VALUES (2,'FC GANGST','US',12,7);
-INSERT INTO Clan VALUES (3,'LES ZOULETTES','ES',4,6);
-INSERT INTO Clan VALUES (4,'LES ZELUS','MONTPELLIER',1,1);
+INSERT INTO Clan VALUES (3,'TROPHY PUSH','US',20,10);
+INSERT INTO Clan VALUES (4,'LES ZELUS','FR',1,1);
+INSERT INTO Clan VALUES (5,'AROUF', 'ES', 15,12);
+INSERT INTO Clan VALUES (6,'UM', 'FR', 7,13);
+INSERT INTO Clan VALUES (7,'JAAJ', 'ES', 15,14);
+INSERT INTO Clan VALUES (8,'MALEMORT', 'GI', 1,15);
+INSERT INTO Clan VALUES (9,'DESPACITO', 'ES', 2,16);
+INSERT INTO Clan VALUES (10,'FLAMENCO', 'ES', 7,17);
 
-/*
-INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,date,etoiles1,etoiles2)
-*/
-INSERT INTO GuerreDeClan VALUES (1,1,2,0,0);
+prompt "Ajout de membres à des clans"
+
+-- Ajout de membres dans des clans (un trigger s'occupe déjà de rajouter le chef)
+UPDATE Village SET idClan = 1 WHERE idVillage == 2;
+UPDATE Village SET idClan = 1 WHERE idVillage == 11;
+UPDATE Village SET idClan = 1 WHERE idVillage == 4;
+UPDATE Village SET idClan = 4 WHERE idVillage == 5;
+UPDATE Village SET idClan = 3 WHERE idVillage == 6;
+UPDATE Village SET idClan = 2 WHERE idVillage == 8;
+UPDATE Village SET idClan = 2 WHERE idVillage == 9;
+
+prompt "Insertion des tubles GuerreDeClan"
+
+--INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,nbrAttaquesMax)
+INSERT INTO GuerreDeClan VALUES (1,1,2,3);
+INSERT INTO GuerreDeClan VALUES (2,2,4,7);
+INSERT INTO GuerreDeClan VALUES (3,5,6,5);
+INSERT INTO GuerreDeClan VALUES (4,7,8,5);
+INSERT INTO GuerreDeClan VALUES (5,9,10,5);
+INSERT INTO GuerreDeClan VALUES (6,10,1,5);
+INSERT INTO GuerreDeClan VALUES (7,8,4,5);
+INSERT INTO GuerreDeClan VALUES (8,6,2,7);
+INSERT INTO GuerreDeClan VALUES (9,4,7,10);
+INSERT INTO GuerreDeClan VALUES (10,10,2,5);
+
+prompt "Insertion des tuples Camp"
+
+prompt "Insertion des tuples Reserves"
+UPDATE Reserves SET (quantite = 10000) WHERE (idVillage = 1) AND (typeReserve='OR')
