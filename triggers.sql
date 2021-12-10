@@ -202,6 +202,7 @@ prompt "Trigger nouvelleTroupe"
 --[trigger pour créer une troupe en vérifiant qu'on a la place et les ressources nécessaires]
 CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
+FOR EACH ROW
 DECLARE
   var1 number;
   var2 number;
