@@ -133,7 +133,7 @@ CREATE TABLE Troupe(
 );
 
 CREATE TABLE Camp(
-  idCamp NUMBER(10) NOT NULL,
+  idCamp NUMBER(10),
   idTroupe NUMBER(10) NOT NULL,
   idVillage NUMBER(10) NOT NULL,
   nbrTroupe NUMBER(10) DEFAULT 1,
