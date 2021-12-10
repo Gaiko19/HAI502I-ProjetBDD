@@ -118,7 +118,7 @@ CREATE TABLE Clan(
   niveauClan NUMBER(10) DEFAULT 1 NOT NULL,
   idChefDeClan NUMBER(10) NOT NULL,
   CONSTRAINT PK_idClan PRIMARY KEY (idClan),
-  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (chefDeClan) REFERENCES Village(idVillage)
+  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (idchefDeClan) REFERENCES Village(idVillage)
 );
 
 CREATE TABLE Troupe(
@@ -138,7 +138,7 @@ CREATE TABLE Camp(
   idVillage NUMBER(10) NOT NULL,
   nbrTroupe NUMBER(10) DEFAULT 1,
   CONSTRAINT PK_IDCAMP PRIMARY KEY (idCamp),
-  CONSTRAINT FK_typeTroupe FOREIGN KEY (typeTroupe) REFERENCES Troupe(idTroupe),
+  CONSTRAINT FK_typeTroupe FOREIGN KEY (idTroupe) REFERENCES Troupe(idTroupe),
   CONSTRAINT FK_idVillageCamp FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 

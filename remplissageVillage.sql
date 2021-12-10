@@ -29,17 +29,17 @@ INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
 prompt "Insertion des tubles Village"
 
---INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (1, 'MATEODU13', 10, 12, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (2, 'MAXIME', 125, 2800, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (3, 'ADAM', 53, 600, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (4, 'ARNAUD', 75, 800, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (5, 'BLAISE', 47, 1200, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (6, 'DOOBY', 26, 50, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (7, 'AROUF', 210, 4500, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (8, 'LACRIM', 92, 2000, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (9, 'DIAMS', 111, 2100, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (10, 'GAZO', 136, 2500, null);
+--INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, trophees, idClan);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (1, 'MATEODU13', 10, 12, 500, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (2, 'MAXIME', 125, 2800, 400, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (3, 'ADAM', 53, 600, 726, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (4, 'ARNAUD', 75, 800, 894, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (5, 'BLAISE', 47, 1200, 1300, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (6, 'DOOBY', 26, 50, 478, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (7, 'AROUF', 210, 4500, 365, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (8, 'LACRIM', 92, 2000, 957, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (9, 'DIAMS', 111, 2100, 1600, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (10, 'GAZO', 136, 2500, 1548, null);
 INSERT INTO Village(idVillage, nomJoueur) VALUES (11, 'GATIEN');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (12, 'THOMAS');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (13, 'ECHARPE');
