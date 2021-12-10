@@ -6,16 +6,6 @@
 prompt "Suppression des relations"
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TABLE AttaqueDeGuerre';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -942 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
 EXECUTE IMMEDIATE 'DROP TABLE Camp';
 EXCEPTION
  WHEN OTHERS THEN
@@ -126,7 +116,7 @@ CREATE TABLE Clan(
   nomClan VARCHAR(20) UNIQUE NOT NULL,
   regionClan VARCHAR(20),
   niveauClan NUMBER(10) DEFAULT 1 NOT NULL,
-  chefDeClan NUMBER(10) NOT NULL,
+  idChefDeClan NUMBER(10) NOT NULL,
   CONSTRAINT PK_idClan PRIMARY KEY (idClan),
   CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (chefDeClan) REFERENCES Village(idVillage)
 );
@@ -143,8 +133,7 @@ CREATE TABLE Troupe(
 );
 
 CREATE TABLE Camp(
-  idCamp NUMBER(10),
-  typeTroupe NUMBER(10) NOT NULL,
+  idTroupe NUMBER(10) NOT NULL,
   idVillage NUMBER(10) NOT NULL,
   nbrTroupe NUMBER(10) DEFAULT 1,
   CONSTRAINT PK_IDCAMP PRIMARY KEY (idCamp),
@@ -154,7 +143,7 @@ CREATE TABLE Camp(
 
 CREATE TABLE Heros(
   idHeros NUMBER(10),
-  typeHeros VARCHAR(50) CHECK( typeHeros IN ('Reine des Archers', 'Roi des barbares', 'Grand Gardien', 'Championne Royale')),
+  typeHeros VARCHAR(50) CHECK(typeHeros IN ('Reine des Archers', 'Roi des Barbares', 'Grand Gardien', 'Championne Royale')),
   niveauHeros NUMBER(10) DEFAULT 1,
   vieHeros NUMBER(10),
   idVillage NUMBER(10) NOT NULL,
@@ -164,7 +153,7 @@ CREATE TABLE Heros(
 
 CREATE TABLE Reserves(
   idReserve NUMBER(10),
-  typeReserve VARCHAR(10) CHECK( typeReserve IN ('Or', 'Elixir', 'ElixirNoir')),
+  typeReserve VARCHAR(10) CHECK(typeReserve IN ('OR', 'ELIXIR', 'ELIXIRNOIR')),
   quantiteMax NUMBER(10) NOT NULL,
   quantite NUMBER(10) DEFAULT 0,
   idVillage NUMBER(10) NOT NULL,
@@ -176,8 +165,7 @@ CREATE TABLE GuerreDeClan(
   idGuerre NUMBER(10),
   idClan1 NUMBER(10) NOT NULL,
   idClan2 NUMBER(10) NOT NULL,
-  etoilesClan1 NUMBER(10) DEFAULT 0,
-  etoilesClan2 NUMBER(10) DEFAULT 0,
+  nombreAttaquesMax NUMBER(10) DEFAULT 10,
   CONSTRAINT PK_IDGUERRE PRIMARY KEY (idGuerre),
   CONSTRAINT FK_idClan1 FOREIGN KEY (idClan1) REFERENCES Clan(idClan),
   CONSTRAINT FK_idClan2 FOREIGN KEY (idClan2) REFERENCES Clan(idClan)
@@ -187,23 +175,21 @@ CREATE TABLE Attaque(
   idAttaque NUMBER(10) NOT NULL,
   idAttaquant NUMBER(10) NOT NULL,
   idDefenseur NUMBER(10) NOT NULL,
-  nombreEtoiles NUMBER(10),
+  tropheesPris NUMBER(10),
+  etoiles NUMBER(10),
   pourcentage NUMBER(10),
-  elixirRecolte NUMBER(10),
   orRecolte NUMBER(10),
+  elixirRecolte NUMBER(10),
   elixirNoirRecolte NUMBER(10),
+  idGuerre NUMBER(10),
   CONSTRAINT PK_idAttaque PRIMARY KEY (idAttaque),
   CONSTRAINT FK_idAttaquant FOREIGN KEY (idAttaquant) REFERENCES Village(idVillage),
   CONSTRAINT FK_idDefenseur FOREIGN KEY (idDefenseur) REFERENCES Village(idVillage)
 );
 
-CREATE TABLE AttaqueDeGuerre(
-  idGuerre NUMBER(10) NOT NULL,
-  idAttaque NUMBER(10) NOT NULL,
-  CONSTRAINT PK_IDATTAQUECLAN PRIMARY KEY (idGuerre, idAttaque),
-  CONSTRAINT FK_idGuerre FOREIGN KEY (idGuerre) REFERENCES GuerreDeClan(idGuerre),
-  CONSTRAINT FK_idAttaque FOREIGN KEY (idAttaque) REFERENCES Attaque(idAttaque)
-);
+
+
+
 
 
 -- *************************************************
