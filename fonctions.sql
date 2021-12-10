@@ -37,7 +37,7 @@ prompt "Création des fonctions"
 -- Renvoie la capacité max du village en fonction du niveau du village
 CREATE OR REPLACE PROCEDURE calculCapaMax (
   lvl IN INTEGER,
-  nb OUT INTEGER) IS
+  nb OUT INTEGER)
 BEGIN
   IF lvl < 100 THEN nb := 100 + 2*lvl;
   ELSE nb := 300;

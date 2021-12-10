@@ -50,25 +50,25 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
 
 prompt "Insertion des tubles Heros"
 
---INSERT INTO Heros VALUES (id,type,niveau,idVillage);
-INSERT INTO Heros VALUES (001,'Roi des Barbares',50,11);
-INSERT INTO Heros VALUES (002,'Reine des Archers',50,11);
-INSERT INTO Heros VALUES (003,'Grand Gardien',30,11);
-INSERT INTO Heros VALUES (004,'Roi des Barbares',40,2);
-INSERT INTO Heros VALUES (005,'Reine des Archers',40,2);
-INSERT INTO Heros VALUES (006,'Grand Gardien',5,2);
-INSERT INTO Heros VALUES (007,'Roi des Barbares',10,4);
-INSERT INTO Heros VALUES (008,'Roi des Barbares',85,7);
-INSERT INTO Heros VALUES (009,'Reine des Archers',85,7);
-INSERT INTO Heros VALUES (010,'Grand Gardien',55,7);
-INSERT INTO Heros VALUES (011,'Championne Royale',30,7);
-INSERT INTO Heros VALUES (012,'Roi des Barbares',20,8);
-INSERT INTO Heros VALUES (013,'Reine des Archers',10,8);
-INSERT INTO Heros VALUES (014,'Roi des Barbares',35,9);
-INSERT INTO Heros VALUES (015,'Reine des Archers',30,9);
-INSERT INTO Heros VALUES (016,'Roi des Barbares',40,10);
-INSERT INTO Heros VALUES (017,'Reine des Archers',45,10);
-INSERT INTO Heros VALUES (018,'Grand Gardien',10,10);
+--INSERT INTO Heros VALUES (id,type,niveau,vie,idVillage);
+INSERT INTO Heros VALUES (001,'Roi des Barbares',50,100,11);
+INSERT INTO Heros VALUES (002,'Reine des Archers',50,100,11);
+INSERT INTO Heros VALUES (003,'Grand Gardien',30,100,11);
+INSERT INTO Heros VALUES (004,'Roi des Barbares',40,100,2);
+INSERT INTO Heros VALUES (005,'Reine des Archers',40,100,2);
+INSERT INTO Heros VALUES (006,'Grand Gardien',5,100,2);
+INSERT INTO Heros VALUES (007,'Roi des Barbares',10,100,4);
+INSERT INTO Heros VALUES (008,'Roi des Barbares',85,100,7);
+INSERT INTO Heros VALUES (009,'Reine des Archers',85,100,7);
+INSERT INTO Heros VALUES (010,'Grand Gardien',55,100,7);
+INSERT INTO Heros VALUES (011,'Championne Royale',30,100,7);
+INSERT INTO Heros VALUES (012,'Roi des Barbares',20,100,8);
+INSERT INTO Heros VALUES (013,'Reine des Archers',10,100,8);
+INSERT INTO Heros VALUES (014,'Roi des Barbares',35,100,9);
+INSERT INTO Heros VALUES (015,'Reine des Archers',30,100,9);
+INSERT INTO Heros VALUES (016,'Roi des Barbares',40,100,10);
+INSERT INTO Heros VALUES (017,'Reine des Archers',45,100,10);
+INSERT INTO Heros VALUES (018,'Grand Gardien',10,100,10);
 
 prompt "Insertion des tubles Attaque"
 
@@ -83,7 +83,7 @@ INSERT INTO Attaque VALUES (7,2,10,0,2,75,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (8,11,7,0,2,51,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (9,10,2,0,2,89,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (10,9,4,0,1,77,100000,100000,1000,1);
-
+ -- TUPLES ATTAQUE A CORRIGER
 prompt "Insertion des tubles Clan"
 
 --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
