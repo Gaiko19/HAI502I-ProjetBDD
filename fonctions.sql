@@ -5,9 +5,14 @@
 
 prompt "Suppression des Fonctions"
 
-BEGIN
-EXECUTE IMMEDIATE 'DROP PROCEDURE IF EXISTS calculCapaMax';
-END;
+
+begin
+   execute immediate 'drop procedure calculCapaMax';
+exception when others then
+   if sqlcode != -4043 then
+      raise;
+   end if;
+end;
 /
 
 BEGIN

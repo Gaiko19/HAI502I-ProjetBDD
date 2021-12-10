@@ -153,12 +153,11 @@ CREATE TABLE Heros(
 );
 
 CREATE TABLE Reserves(
-  idReserve NUMBER(10),
+  idVillage NUMBER(10) NOT NULL,
   typeReserve VARCHAR(10) CHECK(typeReserve IN ('OR', 'ELIXIR', 'ELIXIRNOIR')),
   quantiteMax NUMBER(10) NOT NULL,
   quantite NUMBER(10) DEFAULT 0,
-  idVillage NUMBER(10) NOT NULL,
-  CONSTRAINT PK_IDRESERVE PRIMARY KEY (idReserve),
+  CONSTRAINT PK_IDVILLAGE PRIMARY KEY (idVillage),
   CONSTRAINT FK_idVillageReserve FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 

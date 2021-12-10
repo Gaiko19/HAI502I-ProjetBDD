@@ -147,9 +147,9 @@ DECLARE
   qMax;
 BEGIN
   qMax := calculQuantiteMax(:new.idVillage);
-  INSERT INTO Reserves(typeReserve, quantiteMax, idVillage) VALUES('OR', qMax, :new.idVillage);
-  INSERT INTO Reserves(typeReserve, quantiteMax, idVillage) VALUES('ELIXIR', qMax, :new.idVillage);
-  INSERT INTO Reserves(typeReserve, quantiteMax, idVillage) VALUES('ELIXIRNOIR', qMax, :new.idVillage);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'OR', qMax);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIR', qMax);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax);
 END;
 /
 
