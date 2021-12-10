@@ -1,5 +1,5 @@
 /*  ==============================
-    |  Suppression des relations | repl
+    |  Suppression des relations |
     ==============================
 */
 
