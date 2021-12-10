@@ -129,10 +129,9 @@ prompt "Trigger nouveauVillage"
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village
 FOR EACH ROW
-DECLARE
 BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
-  IF :new.niveauJoueur IS NULL THEN :new.niveauJoueur := 1;
+  IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
   calculCapaMax(:new.niveauJoueur,:new.capaciteeCampMax);
 END;
@@ -208,7 +207,7 @@ DECLARE
   var2 number;
   var3 number;
 BEGIN
-  (SELECT SUM(placeOccupee) INTO var1 FROM Camp, Troupe
+  (SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
   WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage);
 
   (SELECT quantite INTO var2 FROM Reserves 

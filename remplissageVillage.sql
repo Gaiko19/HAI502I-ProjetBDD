@@ -27,7 +27,7 @@ INSERT INTO Troupe VALUES (22,'BOULISTE',310,50,6,0,90);
 INSERT INTO Troupe VALUES (23,'GOLEM DE GLACE',2600,12,15,0,300);
 INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
-prompt "Insertion des tubles Village"
+prompt "Insertion des tuples Village"
 
 --INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, trophees, idClan);
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (1, 'MATEODU13', 10, 12, 500, null);
@@ -48,7 +48,7 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (15, 'DARK');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (16, 'WHITE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
 
-prompt "Insertion des tubles Heros"
+prompt "Insertion des tuples Heros"
 
 --INSERT INTO Heros VALUES (id,type,niveau,vie,idVillage);
 INSERT INTO Heros VALUES (001,'Roi des Barbares',50,100,11);
@@ -70,11 +70,11 @@ INSERT INTO Heros VALUES (016,'Roi des Barbares',40,100,10);
 INSERT INTO Heros VALUES (017,'Reine des Archers',45,100,10);
 INSERT INTO Heros VALUES (018,'Grand Gardien',10,100,10);
 
-prompt "Insertion des tubles Attaque"
+prompt "Insertion des tuples Attaque"
 
 --INSERT INTO Attaque VALUES (id,idAtt,idDef,trophees,etoiles,%,or,elix,noir,idGuerre);
-INSERT INTO Attaque VALUES (1,2,1,2,67,928680,874315,8436,null);
-INSERT INTO Attaque VALUES (2,1,7,1,52,125864,130221,589,null);
+INSERT INTO Attaque VALUES (1,2,11,14,2,67,928680,874315,8436,null);
+INSERT INTO Attaque VALUES (2,11,7,5,1,52,125864,130221,589,null);
 INSERT INTO Attaque VALUES (3,8,3,0,3,100,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (4,3,8,0,1,42,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (5,4,9,0,2,68,100000,100000,1000,1);
@@ -84,7 +84,7 @@ INSERT INTO Attaque VALUES (8,11,7,0,2,51,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (9,10,2,0,2,89,100000,100000,1000,1);
 INSERT INTO Attaque VALUES (10,9,4,0,1,77,100000,100000,1000,1);
  -- TUPLES ATTAQUE A CORRIGER
-prompt "Insertion des tubles Clan"
+prompt "Insertion des tuples Clan"
 
 --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
 INSERT INTO Clan VALUES (1,'GNUMZ','FR',15,3);
@@ -109,7 +109,7 @@ UPDATE Village SET idClan = 3 WHERE idVillage == 6;
 UPDATE Village SET idClan = 2 WHERE idVillage == 8;
 UPDATE Village SET idClan = 2 WHERE idVillage == 9;
 
-prompt "Insertion des tubles GuerreDeClan"
+prompt "Insertion des tuples GuerreDeClan"
 
 --INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,nbrAttaquesMax)
 INSERT INTO GuerreDeClan VALUES (1,1,2,8);
