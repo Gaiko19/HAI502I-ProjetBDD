@@ -29,17 +29,17 @@ INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
 prompt "Insertion des tubles Village"
 
---INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, clan);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (1, 'MATEODU13', 10, 12, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (2, 'MAXIME', 125, 2800, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (3, 'ADAM', 53, 600, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (4, 'ARNAUD', 75, 800, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (5, 'BLAISE', 47, 1200, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (6, 'DOOBY', 26, 50, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (7, 'AROUF', 210, 4500, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (8, 'LACRIM', 92, 2000, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (9, 'DIAMS', 111, 2100, null);
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (10, 'GAZO', 136, 2500, null);
+--INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, trophees, idClan);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (1, 'MATEODU13', 10, 12, 500, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (2, 'MAXIME', 125, 2800, 400, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (3, 'ADAM', 53, 600, 726, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (4, 'ARNAUD', 75, 800, 894, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (5, 'BLAISE', 47, 1200, 1300, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (6, 'DOOBY', 26, 50, 478, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (7, 'AROUF', 210, 4500, 365, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (8, 'LACRIM', 92, 2000, 957, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (9, 'DIAMS', 111, 2100, 1600, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (10, 'GAZO', 136, 2500, 1548, null);
 INSERT INTO Village(idVillage, nomJoueur) VALUES (11, 'GATIEN');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (12, 'THOMAS');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (13, 'ECHARPE');
@@ -112,7 +112,7 @@ UPDATE Village SET idClan = 2 WHERE idVillage == 9;
 prompt "Insertion des tubles GuerreDeClan"
 
 --INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,nbrAttaquesMax)
-INSERT INTO GuerreDeClan VALUES (1,1,2,3);
+INSERT INTO GuerreDeClan VALUES (1,1,2,8);
 INSERT INTO GuerreDeClan VALUES (2,2,4,7);
 INSERT INTO GuerreDeClan VALUES (3,5,6,5);
 INSERT INTO GuerreDeClan VALUES (4,7,8,5);
@@ -123,7 +123,19 @@ INSERT INTO GuerreDeClan VALUES (8,6,2,7);
 INSERT INTO GuerreDeClan VALUES (9,4,7,10);
 INSERT INTO GuerreDeClan VALUES (10,10,2,5);
 
+prompt "Insertion des tuples Reserves"
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 2) AND (typeReserve == 'OR');
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 2) AND (typeReserve == 'ELIXIR');
+UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 2) AND (typeReserve == 'ELIXIRNOIR');
+UPDATE Reserves SET (quantite = 100000) WHERE (idVillage == 3) AND (typeReserve == 'OR');
+UPDATE Reserves SET (quantite = 100000) WHERE (idVillage == 3) AND (typeReserve == 'ELIXIR');
+UPDATE Reserves SET (quantite = 1000) WHERE (idVillage == 3) AND (typeReserve == 'ELIXIRNOIR');
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 4) AND (typeReserve == 'OR');
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 4) AND (typeReserve == 'ELIXIR');
+UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 4) AND (typeReserve == 'ELIXIRNOIR');
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserve == 'OR');
+UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIR');
+UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIRNOIR');
+
 prompt "Insertion des tuples Camp"
 
-prompt "Insertion des tuples Reserves"
-UPDATE Reserves SET (quantite = 10000) WHERE (idVillage = 1) AND (typeReserve='OR')

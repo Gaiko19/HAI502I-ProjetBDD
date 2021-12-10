@@ -1,3 +1,32 @@
+/*  ==============================
+    |  Suppression des fonctions |
+    ==============================
+*/
+
+prompt "Suppression des Fonctions"
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP PROCEDURE calculCapaMax';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -942 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP FUNCTION calculQuantiteMax';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -942 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+
+
 /*  ===========================
     |  Création des fonctions |
     ===========================
