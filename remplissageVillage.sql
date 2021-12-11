@@ -1,4 +1,4 @@
-prompt "Insertion des tubles Troupe"
+prompt "Insertion des tuples Troupe"
 
 
 --INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
