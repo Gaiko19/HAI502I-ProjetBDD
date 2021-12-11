@@ -1,3 +1,12 @@
+/* =======================================
+  Groupe 2 - La Bataille des Villages
+    21905365 SAID ADAM
+    21901688 BOURRET MAXIME
+    21903888 HADDAD GATIEN
+    21901021 COSSU ARNAUD
+  =========================================
+*/
+
 /*  ==============================
     |  Suppression des relations |
     ==============================
