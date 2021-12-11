@@ -1,3 +1,32 @@
+/*  ==============================
+    |  Suppression des fonctions |
+    ==============================
+*/
+
+prompt "Suppression des Fonctions"
+
+
+begin
+   execute immediate 'drop procedure calculCapaMax';
+exception when others then
+   if sqlcode != -4043 or SQLCODE != -955 then
+      raise;
+   end if;
+end;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP FUNCTION calculQuantiteMax';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -4043 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+
+
 /*  ===========================
     |  Création des fonctions |
     ===========================
@@ -9,8 +38,9 @@ prompt "Création des fonctions"
 CREATE OR REPLACE PROCEDURE calculCapaMax (
   lvl IN INTEGER,
   nb OUT INTEGER) IS
+  john INTEGER;
 BEGIN
-  IF lvl < 100 THEN nb := 100 + 2*lvl;
+  IF lvl < 100 THEN nb := (100 + 2*lvl);
   ELSE nb := 300;
   END IF;
 END;

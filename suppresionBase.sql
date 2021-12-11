@@ -3,7 +3,132 @@
     ==============================
 */  
 
-prompt "Suppression de la base"
+
+prompt "Suppression des Triggers"
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER NomTroupeMajuscule ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER nouveauVillage ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleReserve ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER changementChefDeClan ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER calculAttaque ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleTroupe ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER RejoindreChefClan ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER RejoindrePlaceClan ';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER SupprimerClanVide';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP TRIGGER calculReservesNegatives';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -1360 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+
+prompt "Suppression des Fonctions"
+
+begin
+   execute immediate 'drop procedure calculCapaMax';
+exception when others then
+   if sqlcode != -4043 or SQLCODE != -955 then
+      raise;
+   end if;
+end;
+/
+
+BEGIN
+EXECUTE IMMEDIATE 'DROP FUNCTION calculQuantiteMax';
+EXCEPTION
+ WHEN OTHERS THEN
+  IF SQLCODE != -942 THEN
+  RAISE;
+  END IF;
+END;
+/
+
+prompt "Suppression des table"
 
 BEGIN
 EXECUTE IMMEDIATE 'DROP TABLE AttaqueDeGuerre';
