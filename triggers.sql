@@ -235,7 +235,7 @@ CREATE OR REPLACE TRIGGER RejoindreChefClan
 AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET idClan := :new.idClan WHERE idVillage = :new.idChefDeClan;
+  UPDATE Village SET idClan = :new.idClan WHERE idVillage = :new.idChefDeClan;
 END;
 /
 
@@ -250,7 +250,8 @@ DECLARE
 BEGIN
   SELECT COUNT(*) INTO nbMembres FROM Village
   WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 50 THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
+  IF nbMembres >= 50 
+    THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
   END IF;
 END;
 /
