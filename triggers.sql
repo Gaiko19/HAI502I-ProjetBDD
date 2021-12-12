@@ -169,7 +169,7 @@ BEGIN
     SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
 
     IF (nbMembres <= 0) THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
-    ELSIF (:new.idVillage == idChef) THEN BEGIN
+    ELSIF (:new.idVillage = idChef) THEN BEGIN
       SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
       UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan
       END;
@@ -212,10 +212,10 @@ BEGIN
   WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage);
 
   (SELECT quantite INTO var2 FROM Reserves 
-  WHERE Reserves.idVillage == :new.idVillage AND typeReserve == 'ELIXIR');
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIR');
 
   (SELECT quantite INTO var3 FROM Reserves 
-  WHERE Reserves.idVillage == :new.idVillage AND typeReserve == 'ELIXIRNOIR');
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIRNOIR');
 
   IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe.) 
   AND (var2 >= :new.typeTroupe.prixElixir) 
