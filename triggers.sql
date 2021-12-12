@@ -160,20 +160,25 @@ CREATE OR REPLACE TRIGGER changementChefDeClan
 AFTER UPDATE ON Village
 FOR EACH ROW
 DECLARE
-  idChef NUMBER(10);
+  idChef INTEGER;
   nbMembres INTEGER;
-  nouveauChef NUMBER(10);
+  nouveauChef INTEGER;
 BEGIN
-  IF (:old.idClan != :new.idClan) THEN BEGIN
-    SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
-    SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
-
-    IF (nbMembres <= 0) THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
-    ELSIF (:new.idVillage = idChef) THEN BEGIN
-      SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
-      UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan
-      END;
-    END IF;
+  IF (:old.idClan != :new.idClan) 
+    THEN 
+    BEGIN
+      SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
+      SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+      IF (nbMembres <= 0) 
+        THEN 
+          DELETE FROM Clan WHERE idClan = :new.idChefDeClan;
+      ELSIF (:new.idVillage = idChef) 
+        THEN 
+          BEGIN
+            SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
+            UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan;
+          END;
+      END IF;
     END;
   END IF;
 END;
