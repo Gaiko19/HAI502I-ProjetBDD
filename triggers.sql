@@ -139,7 +139,7 @@ END;
 
 prompt "Trigger nouvelleReserve"
 
---[trigger qui ajoute une reserve à chaque création d'un village]
+--[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
 FOR EACH ROW
