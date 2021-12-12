@@ -171,16 +171,16 @@ BEGIN
       SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
       IF (nbMembres <= 0) 
         THEN 
-          DELETE FROM Clan WHERE idClan = :new.idChefDeClan;
-      ELSIF (:new.idVillage = idChef) 
+          DELETE FROM Clan WHERE idClan = :old.idClan;
+      ELSEIF (:new.idVillage = idChef) 
         THEN 
           BEGIN
             SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
             UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan;
           END;
-      END IF;
+      ENDIF;
     END;
-  END IF;
+  ENDIF;
 END;
 /
 
