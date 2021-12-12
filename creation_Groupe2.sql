@@ -248,7 +248,6 @@ prompt "Création des fonctions"
 CREATE OR REPLACE PROCEDURE calculCapaMax (
   lvl IN INTEGER,
   nb OUT INTEGER) IS
-  john INTEGER;
 BEGIN
   IF lvl < 100 THEN nb := (100 + 2*lvl);
   ELSE nb := 300;

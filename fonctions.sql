@@ -7,7 +7,7 @@ prompt "Suppression des Fonctions"
 
 
 begin
-   execute immediate 'DROP PROCEDURE calculCapaMax';
+   execute immediate 'DROP PROCEDURE calculCapaciteMax';
 exception when others then
    if sqlcode != -4043 then
       raise;
@@ -35,9 +35,9 @@ END;
 prompt "Création des fonctions"
 
 -- Renvoie la capacité max du village en fonction du niveau du village
-CREATE PROCEDURE calculCapaMax (
+CREATE OR REPLACE PROCEDURE calculCapaciteMax (
   lvl IN INTEGER,
-  nb OUT INTEGER) AS 
+  nb OUT INTEGER) IS 
 BEGIN
   IF lvl < 100 THEN nb := (100 + 2*lvl);
   ELSE nb := 300;

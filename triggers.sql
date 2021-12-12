@@ -133,7 +133,7 @@ BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
-  calculCapaMax(:new.niveauJoueur,:new.capaciteeCampMax);
+  calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
 END;
 /
 
