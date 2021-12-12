@@ -147,9 +147,9 @@ DECLARE
   qMax INTEGER;
 BEGIN
   SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idvillage = :new.idVillage;
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax,0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax,0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax,0);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
 END;
 /
 
@@ -191,7 +191,7 @@ CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (trophees = trophees + :new.tropheesPris) WHERE (idVillage=:new.idAttaquant);
+  UPDATE Village SET (trophees = trophees + :new.tropheesPris) WHERE (idVillage=:new.idAttaquant); 
   UPDATE Reserves SET (quantite = quantite + :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
   UPDATE Reserves SET (quantite = quantite + :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
   UPDATE Reserves SET (quantite = quantite + :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
@@ -290,6 +290,21 @@ BEGIN
   END IF;
 END;
 /
+
+/*
+prompt "Trigger calculTrophéesNegatifs"
+
+--[trigger si les Trophées sont en négatif, ils passent à 0]
+CREATE OR REPLACE TRIGGER calculTropheesNegatifs
+BEFORE UPDATE ON Reserves
+FOR EACH ROW
+BEGIN
+  IF :new.quantite < 0 
+    THEN :new.quantite := 0;
+  END IF;
+END;
+/
+*/
 
 
 prompt -Triggers lancés

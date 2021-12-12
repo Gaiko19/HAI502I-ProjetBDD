@@ -168,7 +168,7 @@ CREATE TABLE Reserves(
   typeReserve VARCHAR(10) CHECK(typeReserve IN ('OR', 'ELIXIR', 'ELIXIRNOIR')),
   quantiteMax NUMBER(10) NOT NULL,
   quantite NUMBER(10) DEFAULT 0,
-  CONSTRAINT PK_IDVILLAGE PRIMARY KEY (idVillage),
+  CONSTRAINT PK_IDVILLAGE PRIMARY KEY (idVillage, typeReserve),
   CONSTRAINT FK_idVillageReserve FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 

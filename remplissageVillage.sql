@@ -137,5 +137,5 @@ UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserv
 UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIR');
 UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIRNOIR');
 
-prompt "Insertion des tuples Camp"
-
+prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
+INSERT INTO Camp VALUES (1, 2, 14, 40);
