@@ -106,13 +106,12 @@ EXCEPTION
 END;
 /
 
-
 prompt "Suppression des Fonctions"
 
 begin
-   execute immediate 'drop procedure calculCapaMax';
+   execute immediate 'DROP PROCEDURE calculCapaciteMax';
 exception when others then
-   if sqlcode != -4043 or SQLCODE != -955 then
+   if sqlcode != -4043 then
       raise;
    end if;
 end;
@@ -122,11 +121,12 @@ BEGIN
 EXECUTE IMMEDIATE 'DROP FUNCTION calculQuantiteMax';
 EXCEPTION
  WHEN OTHERS THEN
-  IF SQLCODE != -942 THEN
+  IF SQLCODE != -4043 THEN
   RAISE;
   END IF;
 END;
 /
+
 
 prompt "Suppression des table"
 
