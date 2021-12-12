@@ -186,14 +186,14 @@ CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (trophees += :new.tropheesPris) WHERE (idVillage=:new.idAttaquant);
-  UPDATE Reserves SET (quantite += :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
-  UPDATE Reserves SET (quantite += :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite += :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
-  UPDATE Village SET (trophees -= :new.tropheesPris) WHERE (idVillage=:new.idDefenseur);
-  UPDATE Reserves SET (quantite -= :new.orRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
-  UPDATE Reserves SET (quantite -= :new.elixirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite -= :new.elixirNoirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET (trophees = trophees + :new.tropheesPris) WHERE (idVillage=:new.idAttaquant);
+  UPDATE Reserves SET (quantite = quantite + :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
+  UPDATE Reserves SET (quantite = quantite + :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
+  UPDATE Reserves SET (quantite = quantite + :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET (trophees = trophees - :new.tropheesPris) WHERE (idVillage=:new.idDefenseur);
+  UPDATE Reserves SET (quantite = quantite - :new.orRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
+  UPDATE Reserves SET (quantite = quantite - :new.elixirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
+  UPDATE Reserves SET (quantite = quantite - :new.elixirNoirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
 END;
 /
 
@@ -204,9 +204,9 @@ CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
 FOR EACH ROW
 DECLARE
-  var1 number;
-  var2 number;
-  var3 number;
+  var1 INTEGER;
+  var2 INTEGER;
+  var3 INTEGER;
 BEGIN
   (SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
   WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage);
@@ -220,8 +220,8 @@ BEGIN
   IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe.) 
   AND (var2 >= :new.typeTroupe.prixElixir) 
   AND (var3 >= :new.typeTroupe.prixElixirNoir)) THEN BEGIN
-    UPDATE Reserves SET (quantite -= var2) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
-    UPDATE Reserves SET (quantite -= var3) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
+    UPDATE Reserves SET (quantite = quantite - var2) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
+    UPDATE Reserves SET (quantite = quantite - var3) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
   END;
   ELSE THEN RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
   END IF;
@@ -235,7 +235,7 @@ CREATE OR REPLACE TRIGGER RejoindreChefClan
 AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (idClan = :new.idClan) WHERE idVillage = :new.idChefDeClan;
+  UPDATE Village SET (idClan := :new.idClan) WHERE idVillage = :new.idChefDeClan;
 END;
 /
 
@@ -246,7 +246,7 @@ CREATE OR REPLACE TRIGGER RejoindrePlaceClan
 BEFORE UPDATE ON Clan
 FOR EACH ROW
 DECLARE
-  nbMembres;
+  nbMembres INTEGER;
 BEGIN
   SELECT COUNT(*) INTO nbMembres FROM Village
   WHERE Village.idClan = :new.idClan;
@@ -262,11 +262,12 @@ CREATE OR REPLACE TRIGGER SupprimerClanVide
 AFTER UPDATE ON Clan
 FOR EACH ROW
 DECLARE
-  nbMembres;
+  nbMembres INTEGER;
 BEGIN
   SELECT COUNT(*) INTO nbMembres FROM Village
   WHERE Village.idClan = :new.idClan;
-  IF nbMembres <= 0 THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
+  IF nbMembres <= 0 THEN 
+    DELETE FROM Clan WHERE idClan = :new.idChefDeClan;
   END IF;
 END;
 /
