@@ -144,7 +144,7 @@ CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
 FOR EACH ROW
 DECLARE
-  qMax;
+  qMax INTEGER;
 BEGIN
   SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idvillage = :new.idVillage;
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax,0);
