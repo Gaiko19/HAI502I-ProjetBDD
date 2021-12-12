@@ -160,9 +160,9 @@ CREATE OR REPLACE TRIGGER changementChefDeClan
 AFTER UPDATE ON Village
 FOR EACH ROW
 DECLARE
-  idChef;
-  nbMembres;
-  nouveauChef;
+  idChef NUMBER(10);
+  nbMembres INTEGER;
+  nouveauChef NUMBER(10);
 BEGIN
   IF (:old.idClan != :new.idClan) THEN BEGIN
     SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
