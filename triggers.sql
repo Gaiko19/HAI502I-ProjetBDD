@@ -208,16 +208,16 @@ DECLARE
   var2 INTEGER;
   var3 INTEGER;
 BEGIN
-  (SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
-  WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage);
+  SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
+  WHERE Camp.idTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage;
 
-  (SELECT quantite INTO var2 FROM Reserves 
-  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIR');
+  SELECT quantite INTO var2 FROM Reserves 
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIR';
 
-  (SELECT quantite INTO var3 FROM Reserves 
-  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIRNOIR');
+  SELECT quantite INTO var3 FROM Reserves 
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIRNOIR';
 
-  IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe.) 
+  IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe) 
   AND (var2 >= :new.typeTroupe.prixElixir) 
   AND (var3 >= :new.typeTroupe.prixElixirNoir)) THEN BEGIN
     UPDATE Reserves SET (quantite = quantite - var2) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
@@ -235,7 +235,7 @@ CREATE OR REPLACE TRIGGER RejoindreChefClan
 AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (idClan := :new.idClan) WHERE idVillage = :new.idChefDeClan;
+  UPDATE Village SET idClan := :new.idClan WHERE idVillage = :new.idChefDeClan;
 END;
 /
 
@@ -279,7 +279,8 @@ CREATE OR REPLACE TRIGGER calculReservesNegatives
 BEFORE UPDATE ON Reserves
 FOR EACH ROW
 BEGIN
-  IF :new.quantite < 0 THEN :new.quantite := 0
+  IF :new.quantite < 0 
+    THEN :new.quantite := 0;
   END IF;
 END;
 /
