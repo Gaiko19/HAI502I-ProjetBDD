@@ -2,7 +2,9 @@
 
 @fonctions.sql
 
-@triggers.sql --si problème demander à Arnaud (oui c'est moi qui ai fait cette merde)
+@triggers.sql 
+
+--si problème demander à Arnaud (oui c'est moi qui ai fait cette merde)
 
 --Test trigger Nom de troupe en majuscule lors de l'ajout
 prompt -Test du Trigger NomDeTroupeMajuscule
@@ -14,7 +16,6 @@ INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophee
 
 --Test trigger changement de chef
 prompt -Test du Trigger changementChefDeClan
-INSERT INTO Attaque VALUES (id,idAtt,idDef,trophees,etoiles,%,or,elix,noir,idGuerre);
 
 --Test trigger calcul Attaque
 prompt -Test du Trigger calculAttaque
@@ -115,5 +116,5 @@ INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (149, '50', 33);
 
 --Test trigger passage des reserves en négatif à 0
 prompt -Test passage des reserves en négatif à 0
-prompt "Ajout d'une reserve"
+prompt "Modification d'une reserve"
 UPDATE Reserves SET (quantite = -2) WHERE (idVillage == 2) AND (typeReserve == 'OR');

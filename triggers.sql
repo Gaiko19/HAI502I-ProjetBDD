@@ -1,127 +1,9 @@
-/*  ==============================
-    |  Suppression des triggers |
-    ==============================
-*/
-
-prompt "Suppression des Triggers"
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER NomTroupeMajuscule ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouveauVillage ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleReserve ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER changementChefDeClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER calculAttaque ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleTroupe ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER RejoindreChefClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER RejoindrePlaceClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER SupprimerClanVide';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER calculReservesNegatives';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
 /*  ===========================
     |  Création des triggers |
     ===========================
 */  
 
-prompt -Lancement des Triggers 
-
-prompt "Trigger NomTroupeMajuscule"
-
---[Trigger Nom de la troupe en majuscule]
-CREATE OR REPLACE TRIGGER NomTroupeMajuscule
-BEFORE INSERT ON Troupe
-FOR EACH ROW
-BEGIN
-  :new.nomTroupe := UPPER(:new.nomTroupe);
-END;
-/
+prompt "Lancement des Triggers" 
 
 prompt "Trigger nouveauVillage"
 
@@ -146,7 +28,7 @@ FOR EACH ROW
 DECLARE
   qMax INTEGER;
 BEGIN
-  SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idvillage = :new.idVillage;
+  SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
@@ -176,13 +58,30 @@ BEGIN
         THEN 
           BEGIN
             SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
-            UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan;
+            UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
           END;
       END IF;
     END;
   END IF;
 END;
 /
+
+
+
+prompt "Trigger calculTrophéesNegatifs"
+
+--[trigger si les Trophées sont en négatif, ils passent à 0]
+CREATE OR REPLACE TRIGGER calculTropheesNegatifs
+BEFORE UPDATE ON Village
+FOR EACH ROW
+BEGIN
+  IF :new.trophees < 0 
+    THEN :new.trophees := 0;
+  END IF;
+END;
+/
+
+
 
 prompt "Trigger calculAttaque"
 
@@ -191,14 +90,14 @@ CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (trophees = trophees + :new.tropheesPris) WHERE (idVillage=:new.idAttaquant); 
-  UPDATE Reserves SET (quantite = quantite + :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
-  UPDATE Reserves SET (quantite = quantite + :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite = quantite + :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
-  UPDATE Village SET (trophees = trophees - :new.tropheesPris) WHERE (idVillage=:new.idDefenseur);
-  UPDATE Reserves SET (quantite = quantite - :new.orRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
-  UPDATE Reserves SET (quantite = quantite - :new.elixirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite = quantite - :new.elixirNoirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET trophees = trophees + :new.tropheesPris WHERE (idVillage=:new.idAttaquant); 
+  UPDATE Reserves SET quantite = quantite + :new.orRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
+  UPDATE Reserves SET quantite = quantite + :new.elixirRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
+  UPDATE Reserves SET quantite = quantite + :new.elixirNoirRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET trophees = trophees - :new.tropheesPris WHERE (idVillage=:new.idDefenseur);
+  UPDATE Reserves SET quantite = quantite - :new.orRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
+  UPDATE Reserves SET quantite = quantite - :new.elixirRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
+  UPDATE Reserves SET quantite = quantite - :new.elixirNoirRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
 END;
 /
 
@@ -209,26 +108,30 @@ CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
 FOR EACH ROW
 DECLARE
-  var1 INTEGER;
-  var2 INTEGER;
-  var3 INTEGER;
+  placeTotalePrise INTEGER;
+  elixirDispo INTEGER;
+  elixirNoirDispo INTEGER;
+  elixirPrix INTEGER;
+  elixirNoirPrix INTEGER;
+  capaMaxVillage INTEGER;
 BEGIN
-  SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
-  WHERE Camp.idTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage;
-
-  SELECT quantite INTO var2 FROM Reserves 
+  SELECT placeOccupee * :new.nbrTroupe INTO placeTotalePrise FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT quantite INTO elixirDispo FROM Reserves 
   WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIR';
-
-  SELECT quantite INTO var3 FROM Reserves 
+  SELECT quantite INTO elixirNoirDispo FROM Reserves 
   WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIRNOIR';
-
-  IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe) 
-  AND (var2 >= :new.typeTroupe.prixElixir) 
-  AND (var3 >= :new.typeTroupe.prixElixirNoir)) THEN BEGIN
-    UPDATE Reserves SET (quantite = quantite - var2) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
-    UPDATE Reserves SET (quantite = quantite - var3) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
-  END;
-  ELSE THEN RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
+  SELECT prixElixir * :new.nbrTroupe INTO elixirPrix FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT prixElixirNoir * :new.nbrTroupe INTO elixirNoirPrix FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT capaciteeCampMax INTO capaMaxVillage FROM Village
+  WHERE idVillage = :new.idVillage;
+  IF ((capaMaxVillage >= placeTotalePrise) AND (elixirDispo >= elixirPrix) AND (elixirNoirDispo >= elixirNoirPrix)) THEN BEGIN
+    UPDATE Reserves SET quantite = quantite - elixirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
+    UPDATE Reserves SET quantite = quantite - elixirNoirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
+    END; 
+  ELSE RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
   END IF;
 END;
 /
@@ -237,7 +140,7 @@ prompt "Trigger RejoindreChefClan"
 
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
-AFTER INSERT ON Clan
+AFTER INSERT OR UPDATE ON Clan
 FOR EACH ROW
 BEGIN
   UPDATE Village SET idClan = :new.idClan WHERE idVillage = :new.idChefDeClan;
@@ -290,21 +193,6 @@ BEGIN
   END IF;
 END;
 /
-
-/*
-prompt "Trigger calculTrophéesNegatifs"
-
---[trigger si les Trophées sont en négatif, ils passent à 0]
-CREATE OR REPLACE TRIGGER calculTropheesNegatifs
-BEFORE UPDATE ON Reserves
-FOR EACH ROW
-BEGIN
-  IF :new.quantite < 0 
-    THEN :new.quantite := 0;
-  END IF;
-END;
-/
-*/
 
 
 prompt -Triggers lancés
