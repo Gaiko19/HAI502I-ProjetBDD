@@ -114,7 +114,7 @@ CREATE TABLE Village(
 	idVillage NUMBER(10) NOT NULL, 
   nomJoueur VARCHAR(20) NOT NULL,
   niveauJoueur NUMBER(10) DEFAULT 1,
-  capaciteeCampMax NUMBER(10) NOT NULL,
+  capaciteeCampMax NUMBER(10) DEFAULT 100,
   trophees NUMBER(10) DEFAULT 100,
   idClan NUMBER(10),
   CONSTRAINT PK_IDVILLLAGE PRIMARY KEY (idVillage),
