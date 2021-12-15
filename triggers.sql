@@ -9,7 +9,7 @@ prompt "Trigger nouveauVillage"
 
 --[Trigger pour créer un nouveau village et calculer sa capcitée Max, et qui ajoute une reserve de chaque ressource]
 CREATE OR REPLACE TRIGGER nouveauVillage
-BEFORE INSERT ON Village
+AFTER INSERT ON Village
 FOR EACH ROW
 DECLARE
   qMax INTEGER;
