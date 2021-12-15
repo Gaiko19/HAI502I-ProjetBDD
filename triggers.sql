@@ -7,33 +7,25 @@ prompt "Lancement des Triggers"
 
 prompt "Trigger nouveauVillage"
 
---[Trigger pour créer un nouveau village et calculer sa capcitée Max]
+--[Trigger pour créer un nouveau village et calculer sa capcitée Max, et qui ajoute une reserve de chaque ressource]
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village
 FOR EACH ROW
+DECLARE
+  qMax INTEGER;
 BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
   calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
-END;
-/
 
-prompt "Trigger nouvelleReserve"
-
---[trigger qui ajoute une reserve à chaque création d un village]
-CREATE OR REPLACE TRIGGER nouvelleReserve
-AFTER INSERT ON Village
-FOR EACH ROW
-DECLARE
-  qMax INTEGER;
-BEGIN
   SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
 END;
 /
+
 
 prompt "Trigger changementChefDeClan"
 
