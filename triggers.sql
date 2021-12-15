@@ -7,25 +7,35 @@ prompt "Lancement des Triggers"
 
 prompt "Trigger nouveauVillage"
 
---[Trigger pour créer un nouveau village et calculer sa capcitée Max, et qui ajoute une reserve de chaque ressource]
+--[Trigger pour créer un nouveau village et calculer sa capcitée Max]
 CREATE OR REPLACE TRIGGER nouveauVillage
-AFTER INSERT ON Village
+BEFORE INSERT ON Village
 FOR EACH ROW
-DECLARE
-  qMax INTEGER;
 BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
   calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
-
-  SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
 END;
 /
 
+prompt "Trigger nouvelleReserve"
+
+--[trigger qui ajoute une reserve à chaque création d un village]
+CREATE OR REPLACE TRIGGER nouvelleReserve
+AFTER INSERT ON Village
+FOR EACH ROW
+DECLARE
+  PRAGMA AUTONOMOUS_TRANSACTION;
+  qMax INTEGER;
+BEGIN
+  SELECT calculQuantiteMax(:new.idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
+  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
+  COMMIT;
+END;
+/
 
 prompt "Trigger changementChefDeClan"
 

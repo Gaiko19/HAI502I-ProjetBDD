@@ -4,19 +4,22 @@
 
 @triggers.sql 
 
---si problème demander à Arnaud (oui c'est moi qui ai fait cette merde)
-
+prompt "---------------------------------------------"
 --Test trigger Nom de troupe en majuscule lors de l'ajout
 prompt -Test du Trigger NomDeTroupeMajuscule
-INSERT INTO Troupe VALUES (25,'gnomes',100,30,1,250,0);
+INSERT INTO Troupe VALUES (25, 'gnomes', 100, 30, 1, 250, 0);
 
---Test trigger Nom de village en majuscule lors de l'ajout et calcu capamax
+prompt "---------------------------------------------"
+--Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax
 prompt -Test du Trigger NomDeVillageMajuscule et MiseANiveauNouveauVillage
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (18, 'martin', 45, 1200, 1300, null);
 
+prompt "---------------------------------------------"
 --Test trigger changement de chef
 prompt -Test du Trigger changementChefDeClan
 
+
+prompt "---------------------------------------------"
 --Test trigger calcul Attaque
 prompt -Test du Trigger calculAttaque
 
@@ -33,11 +36,12 @@ SELECT Trophees FROM Village where idVillage = 20;
 prompt -Attaque terminée
 
 INSERT INTO Attaque VALUES (21, 19, 20, 3, 100, 12000, 14000, 1000, null);
-prompt "Affichage des trophees du village attaquant avant l'attaque"
+prompt "Affichage des trophees du village attaquant après l'attaque"
 SELECT Trophees FROM Village where idVillage = 19;
-prompt "Affichage des trophees du village defenseur avant l'attaque"
+prompt "Affichage des trophees du village defenseur après l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
 
+prompt "---------------------------------------------"
 --Test trigger ajout de troupe si on à la place
 prompt -Test du Trigger nouvelleTroupe
 
@@ -47,8 +51,9 @@ INSERT INTO Camp VALUES (1, 2, 18, 40);
 prompt -Nombre de troupes et leurs id pour le village de Martin
 SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe; 
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
-INSERT INTO Camp VALUES (1, 2, 18, 300);
+INSERT INTO Camp VALUES (20, 2, 18, 300);
 
+prompt "---------------------------------------------"
 --Test trigger rejoindre un clan s'il n'y a pas de place
 prompt -Test pour voir si il reste une place dans le idClan
 prompt "Creation d'un clan avec Martin comme chef"
@@ -114,6 +119,7 @@ INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (148, '49', 33);
 prompt "Tentative d'insertion d'un 51eme membre"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (149, '50', 33);
 
+prompt "---------------------------------------------"
 --Test trigger passage des reserves en négatif à 0
 prompt -Test passage des reserves en négatif à 0
 prompt "Modification d'une reserve"

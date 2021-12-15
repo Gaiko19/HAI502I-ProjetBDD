@@ -19,7 +19,13 @@ AND Camp.idVillage=Village.idVillage
 AND Village.nomJoueur='DOOBY'
 GROUP BY Village.nomJoueur;
 
--- Requete avec division
+-- Requete avec division : Existe-t-il un village tel qu'il n'existe aucune troupe qui ne soit pas formé par ce village ?
+SELECT * FROM Village
+  WHERE NOT EXISTS
+    (SELECT * FROM Troupe WHERE NOT EXISTS
+      (SELECT * FROM Camp WHERE Camp.idVillage = Village.idVillage
+                          AND Camp.idTroupe = Troupe.idTroupe));
+
 
 -- Des unités non utilisées dans le camp (Sous-requête)
 SELECT Troupe.idTroupe, Troupe.NomTroupe FROM Troupe 
@@ -27,4 +33,5 @@ WHERE Troupe.idTroupe NOT IN (SELECT Camp.TypeTroupe FROM Camp
                             GROUP BY Camp.TypeTroupe);
 
 
--- Requete avec ss requete corrélative
+-- Requete avec ss requete corrélative : Quels sont les villages qui forment des troupes
+SELECT idVillage, nomJoueur FROM Village AS Vil WHERE EXISTS (SELECT * FROM Camp WHERE Vil.idVillage = Camp.idVillage); 
