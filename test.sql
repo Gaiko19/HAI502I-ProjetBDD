@@ -1,9 +1,3 @@
-@creationVillage.sql
-
-@fonctions.sql
-
-@triggers.sql 
-
 prompt "---------------------------------------------"
 --Test trigger Nom de troupe en majuscule lors de l'ajout
 prompt -Test du Trigger NomDeTroupeMajuscule
