@@ -29,7 +29,7 @@ DECLARE
   PRAGMA AUTONOMOUS_TRANSACTION;
   qMax INTEGER;
 BEGIN
-  SELECT calculQuantiteMax(:new.idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
+  qMax := calculQuantiteMax(:new.idVillage);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
