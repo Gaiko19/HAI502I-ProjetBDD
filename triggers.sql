@@ -15,7 +15,9 @@ BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
+  IF (:new.capaciteeCampMax IS NULL) THEN
   calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
+  END IF;
 END;
 /
 
@@ -26,14 +28,12 @@ CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
 FOR EACH ROW
 DECLARE
-  PRAGMA AUTONOMOUS_TRANSACTION;
   qMax INTEGER;
 BEGIN
   qMax := calculQuantiteMax(:new.idVillage);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
   INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
-  COMMIT;
 END;
 /
 
