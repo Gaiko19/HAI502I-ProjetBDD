@@ -140,7 +140,6 @@ UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 11) AND (typeReserve = '
 
 prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
 INSERT INTO Camp VALUES (1, 2, 14, 40);
-INSERT INTO Camp VALUES (11, 1, 2, 5);
 INSERT INTO Camp VALUES (2, 14, 2, 7);
 INSERT INTO Camp VALUES (5, 5, 5, 3);
 INSERT INTO Camp VALUES (3, 3, 3, 2);
