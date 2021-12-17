@@ -26,14 +26,16 @@ prompt "Trigger nouvelleReserve"
 --[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
-FOR EACH ROW
 DECLARE
   qMax INTEGER;
 BEGIN
-  qMax := calculQuantiteMax(:new.idVillage);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
+  FOR record IN (SELECT idVillage FROM Village WHERE idVillage NOT IN (SELECT idVillage FROM Reserves))
+  LOOP
+    qMax := calculQuantiteMax(record.idVillage);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 0);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 0);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 0);
+  END LOOP;
 END;
 /
 
