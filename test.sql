@@ -40,20 +40,35 @@ prompt "Ajout de l'attaquant"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (19, 'attaquant', 45, 1200, 1300, null);
 prompt "Ajout du defenseur"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (20, 'defenseur', 55, 1200, 1350, null);
+--////////////////////////////////////////////////////////////////////////////--
 
 prompt "Affichage des trophees du village attaquant avant l'attaque"
 SELECT Trophees FROM Village where idVillage = 19;
 prompt "Affichage des trophees du village defenseur avant l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
 
+prompt
+prompt "Affichage des ressources du village attaquant avant l'attaque"
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve;
+prompt "Affichage des ressources du village defenseur avant l'attaque"
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve;
+--////////////////////////////////////////////////////////////////////////////--
+
 INSERT INTO Attaque VALUES (21, 19, 20, 15, 3, 100, 1200, 1400, 1000, null);
 
-prompt -Attaque terminée
+--////////////////////////////////////////////////////////////////////////////--
+prompt -Attaque terminée (perte de trophées)
 
 prompt "Affichage des trophees du village attaquant après l'attaque"
 SELECT Trophees FROM Village where idVillage = 19;
 prompt "Affichage des trophees du village defenseur après l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
+
+prompt -Attaque terminée (perte de ressources)
+prompt "Affichage des ressources du village attaquant après l'attaque (Gagné  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve;
+prompt "Affichage des ressources du village defenseur après l'attaque (Perdu  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve;
 
 --Test trigger ajout de troupe si on à la place
 prompt

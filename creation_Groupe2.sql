@@ -95,11 +95,7 @@ EXCEPTION
 END;
 /
 
-
-
 -- *************************************************
-
-
 
 /*  ===========================
     |  Création des relations |
@@ -107,8 +103,6 @@ END;
 */  
 
 prompt "Création des relations"
-
-
 
 CREATE TABLE Village(
 	idVillage NUMBER(10) NOT NULL, 
@@ -198,7 +192,6 @@ CREATE TABLE Attaque(
   CONSTRAINT FK_idDefenseur FOREIGN KEY (idDefenseur) REFERENCES Village(idVillage)
 );
 
-
 -- *************************************************
 
 /*  ====================
@@ -255,7 +248,6 @@ BEGIN
 END;
 /
 
-
 -- Renvoie la quantité de ressource maximale du village en fonction du niveau du village
 CREATE OR REPLACE FUNCTION calculQuantiteMax (id IN INTEGER) 
 RETURN INTEGER IS nb INTEGER;
@@ -268,7 +260,6 @@ BEGIN
   RETURN (nb);
 END; 
 /
-
 
 prompt "Fonctions créées"
 
@@ -289,7 +280,9 @@ BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
+  IF (:new.capaciteeCampMax IS NULL) THEN
   calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
+  END IF;
 END;
 /
 
@@ -298,16 +291,16 @@ prompt "Trigger nouvelleReserve"
 --[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
-FOR EACH ROW
 DECLARE
-  PRAGMA AUTONOMOUS_TRANSACTION;
   qMax INTEGER;
 BEGIN
-  SELECT calculQuantiteMax(:new.idVillage) INTO qMax FROM Village WHERE idVillage = :new.idVillage;
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'OR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIR', qMax, 0);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax, 0);
-  COMMIT;
+  FOR record IN (SELECT idVillage FROM Village WHERE idVillage NOT IN (SELECT idVillage FROM Reserves))
+  LOOP
+    qMax := calculQuantiteMax(record.idVillage);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
+  END LOOP;
 END;
 /
 
@@ -342,8 +335,6 @@ BEGIN
 END;
 /
 
-
-
 prompt "Trigger calculTrophéesNegatifs"
 
 --[trigger si les Trophées sont en négatif, ils passent à 0]
@@ -356,8 +347,6 @@ BEGIN
   END IF;
 END;
 /
-
-
 
 prompt "Trigger calculAttaque"
 
@@ -470,11 +459,14 @@ BEGIN
 END;
 /
 
-
 prompt -Triggers lancés
 
-prompt "Insertion des tuples Troupe"
+/*  ===========================
+    |  Remplissage des tables |
+    ===========================
+*/  
 
+prompt "Insertion des tuples Troupe"
 
 --INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
 INSERT INTO Troupe VALUES (1,'BARBARE',100,30,1,250,0);
@@ -522,7 +514,7 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (14, 'CUISINE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (15, 'DARK');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (16, 'WHITE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'DIEU', 250, 4000);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'JEAN', 250, 4000);
 
 prompt "Insertion des tuples Heros"
 
@@ -615,16 +607,20 @@ UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 11) AND (typeReserve = '
 
 prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
 INSERT INTO Camp VALUES (1, 2, 14, 40);
-INSERT INTO Camp VALUES (1, 1, 2, 5);
-INSERT INTO Camp VALUES (2, 14, 2, 7);
+INSERT INTO Camp VALUES (2, 16, 2, 5);
+INSERT INTO Camp VALUES (7, 14, 2, 3);
+INSERT INTO Camp VALUES (23, 22, 2, 2);
 INSERT INTO Camp VALUES (5, 5, 5, 3);
 INSERT INTO Camp VALUES (3, 3, 3, 2);
 INSERT INTO Camp VALUES (6, 6, 6, 1);
-INSERT INTO Camp VALUES (7, 15, 7, 5);
 INSERT INTO Camp VALUES (4, 9, 4, 9);
 INSERT INTO Camp VALUES (8, 10, 8, 2);
 INSERT INTO Camp VALUES (9, 16, 9, 12);
 INSERT INTO Camp VALUES (10, 22, 10, 8);
+
+
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
 
 INSERT INTO Camp VALUES (11, 1, 18, 1);
 INSERT INTO Camp VALUES (12, 2, 18, 1);
@@ -638,9 +634,7 @@ INSERT INTO Camp VALUES (19, 9, 18, 1);
 INSERT INTO Camp VALUES (20, 10, 18, 1);
 INSERT INTO Camp VALUES (21, 11, 18, 1);
 INSERT INTO Camp VALUES (22, 12, 18, 1);
-INSERT INTO Camp VALUES (23, 13, 18, 1);
 INSERT INTO Camp VALUES (24, 14, 18, 1);
-INSERT INTO Camp VALUES (25, 15, 18, 1);
 INSERT INTO Camp VALUES (26, 16, 18, 1);
 INSERT INTO Camp VALUES (27, 17, 18, 1);
 INSERT INTO Camp VALUES (28, 18, 18, 1);
@@ -650,3 +644,6 @@ INSERT INTO Camp VALUES (31, 21, 18, 1);
 INSERT INTO Camp VALUES (32, 22, 18, 1);
 INSERT INTO Camp VALUES (33, 23, 18, 1);
 INSERT INTO Camp VALUES (34, 24, 18, 1);
+INSERT INTO Camp VALUES (35, 13, 18, 1);
+INSERT INTO Camp VALUES (36, 15, 18, 1);
+
