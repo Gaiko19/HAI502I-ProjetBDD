@@ -54,7 +54,7 @@ prompt "Les villages qui ne possèdent pas de troupe (Sous-requête)"
 prompt "##########################################################"
 prompt 
 
-SELECT Village.idVillage FROM Village, Camp WHERE Village.idVillage = Camp.idVillage AND idVillage NOT IN (SELECT idVillage FROM Camp GROUP BY idVillage);
+SELECT Village.idVillage FROM Village, Camp WHERE Village.idVillage = Camp.idVillage AND Village.idVillage NOT IN (SELECT idVillage FROM Camp GROUP BY idVillage);
 
 prompt 
 prompt "##########################################################"
