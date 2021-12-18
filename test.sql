@@ -1,4 +1,4 @@
---Test trigger Nom de troupe en majuscule lors de l'ajout (fonctionnelle)
+--Test trigger Nom de troupe en majuscule lors de l'ajout (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NomDeTroupeMajuscule"
@@ -9,7 +9,7 @@ prompt "Affichage de la nouvelle troupe"
 SELECT * FROM Troupe WHERE idTroupe = 25;
 
 
---Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax (fonctionnelle)
+--Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NomVillageMajuscule et MiseANiveauNouveauVillage"
@@ -22,14 +22,14 @@ prompt "Affichage du niveau"
 SELECT niveauJoueur, capaciteeCampMax FROM Village WHERE idVillage = 60;
 
 
---Test trigger changement de chef
+--Test trigger changement de chef 
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger changementChefClan"
 prompt "##########################################################"
 prompt 
 
---Test trigger calcul Attaque
+--Test trigger calcul Attaque (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger calculAttaque"
@@ -70,30 +70,35 @@ SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeRes
 prompt "Affichage des ressources du village defenseur après l'attaque (Perdu  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
 SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 20 GROUP BY typeReserve, quantite;
 
---Test trigger ajout de troupe si on à la place
+--Test trigger ajout de troupe si on à la place prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe) (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NouvelleTroupe"
 prompt "##########################################################"
 prompt 
+
+prompt -Nombre de troupes et leurs id pour le village de Martin avant insertion de 40 archères
+SELECT nbrTroupe, idTroupe FROM Camp where idVillage = 60 GROUP BY idTroupe, nbrTroupe;
+prompt
+
 prompt -Insertion de 40 archères dans le village de martin
 INSERT INTO Camp VALUES (37, 2, 60, 40);
 prompt
 
 prompt -Nombre de troupes et leurs id pour le village de Martin
-SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe, nbrTroupe; 
+SELECT nbrTroupe, idTroupe FROM Camp where idVillage = 60 GROUP BY idTroupe, nbrTroupe; 
 
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
 INSERT INTO Camp VALUES (38, 2, 60, 300);
 
---Test trigger rejoindre un clan s'il n'y a pas de place
+--Test trigger rejoindre un clan s'il n'y a pas de place --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
 prompt
 prompt "##########################################################"
 prompt "Test pour voir si il reste une place dans le idClan"
 prompt "##########################################################"
 prompt 
 prompt "Creation d'un clan avec Martin comme chef"
-INSERT INTO Clan VALUES (33,'TEST','FR',15, 18);
+INSERT INTO Clan VALUES (33,'TEST','FR', 15, 60);
 
 prompt "Création de 49 membres (C'est long)"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (100, '1', 33);
@@ -155,7 +160,7 @@ INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (148, '49', 33);
 prompt "Tentative d'insertion d'un 51eme membre"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (149, '50', 33);
 
---Test trigger passage des reserves en négatif à 0
+--Test trigger passage des reserves en négatif à 0 (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test passage des reserves en négatif à 0"
