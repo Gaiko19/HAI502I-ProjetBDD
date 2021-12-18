@@ -81,7 +81,7 @@ INSERT INTO Camp VALUES (37, 2, 60, 40);
 prompt
 
 prompt -Nombre de troupes et leurs id pour le village de Martin
-SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe; 
+SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe, nbrTroupe; 
 
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
 INSERT INTO Camp VALUES (38, 2, 60, 300);
@@ -162,4 +162,4 @@ prompt "Test passage des reserves en négatif à 0"
 prompt "##########################################################"
 prompt 
 prompt "Modification d'une reserve"
-UPDATE Reserves SET (quantite = -2) WHERE (idVillage == 2) AND (typeReserve == 'OR');
+UPDATE Reserves SET quantite = -2 WHERE (idVillage = 2) AND (typeReserve = 'OR');
