@@ -158,3 +158,22 @@ prompt
 prompt "Modification d'une reserve avec -2 en quantité d'or pour le village d'id 2"
 UPDATE Reserves SET quantite = -2 WHERE (idVillage = 2) AND (typeReserve = 'OR');
 SELECT quantite FROM Reserves WHERE idVillage = 2 AND typeReserve = 'OR';
+
+--Test trigger SupprimerClanVide
+prompt
+prompt "##########################################################"
+prompt "Test du trigger SupprimerClanVide"
+prompt "##########################################################"
+prompt 
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (61, 'Marlon', 45, null, 1300, null);
+INSERT INTO Clan VALUES (34,'TEST2','FR', 15, 61);
+prompt "Affichage du chef de clan"
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND idClan = 34;
+prompt "Affichage de tous les clans"
+SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
+prompt "Suppression du chef qui est l'unique membre"
+DELETE FROM Village WHERE idVillage = 61;
+
+prompt "Affichage de tous les clans"
+SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
+prompt "Le clan a bien été supprimé"
