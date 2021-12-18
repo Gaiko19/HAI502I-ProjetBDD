@@ -22,7 +22,7 @@ INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophee
 prompt "Création d'un clan 'TEST0' avec Val comme chef"
 INSERT INTO Clan VALUES (36,'TEST0','FR', 15, 120);
 prompt "Affichage du chef de clan"
-SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.idClan AND Village.idClan = 36;
 
 UPDATE Village SET idClan =  null WHERE idVillage = 200;
 UPDATE Clan SET idChefDeClan = null WHERE idClan = 36;
@@ -30,7 +30,7 @@ prompt "Suppression du chef"
 DELETE FROM Village WHERE idVillage = 200;
 
 prompt "Affichage du chef de clan"
-SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.idClan AND Village.idClan = 36;
 
 
 --Test trigger calcul Attaque (fonctionnel)
@@ -185,7 +185,7 @@ INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophee
 prompt "Création d'un clan 'TEST2' avec Marlon comme chef"
 INSERT INTO Clan VALUES (34,'TEST2','FR', 15, 61);
 prompt "Affichage du chef de clan"
-SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 34;
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.idClan AND Village.idClan = 34;
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 
