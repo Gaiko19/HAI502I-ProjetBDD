@@ -47,7 +47,7 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (14, 'CUISINE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (15, 'DARK');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (16, 'WHITE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'DIEU', 250, 4000);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'JEAN', 250, 4000);
 
 prompt "Insertion des tuples Heros"
 
@@ -140,15 +140,20 @@ UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 11) AND (typeReserve = '
 
 prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
 INSERT INTO Camp VALUES (1, 2, 14, 40);
-INSERT INTO Camp VALUES (2, 14, 2, 7);
+INSERT INTO Camp VALUES (2, 16, 2, 5);
+INSERT INTO Camp VALUES (7, 14, 2, 3);
+INSERT INTO Camp VALUES (23, 22, 2, 2);
 INSERT INTO Camp VALUES (5, 5, 5, 3);
 INSERT INTO Camp VALUES (3, 3, 3, 2);
 INSERT INTO Camp VALUES (6, 6, 6, 1);
-INSERT INTO Camp VALUES (7, 15, 7, 5);
 INSERT INTO Camp VALUES (4, 9, 4, 9);
 INSERT INTO Camp VALUES (8, 10, 8, 2);
 INSERT INTO Camp VALUES (9, 16, 9, 12);
 INSERT INTO Camp VALUES (10, 22, 10, 8);
+
+
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
 
 INSERT INTO Camp VALUES (11, 1, 18, 1);
 INSERT INTO Camp VALUES (12, 2, 18, 1);
@@ -172,3 +177,5 @@ INSERT INTO Camp VALUES (31, 21, 18, 1);
 INSERT INTO Camp VALUES (32, 22, 18, 1);
 INSERT INTO Camp VALUES (33, 23, 18, 1);
 INSERT INTO Camp VALUES (34, 24, 18, 1);
+INSERT INTO Camp VALUES (35, 13, 18, 1);
+INSERT INTO Camp VALUES (36, 15, 18, 1);
