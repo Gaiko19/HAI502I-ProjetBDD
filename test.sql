@@ -186,8 +186,10 @@ prompt "##########################################################"
 prompt "Test du trigger Trophées négatifs"
 prompt "##########################################################"
 prompt 
-prompt "Insertion d'un Village 'AGATHE' avec -15 trophées"
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (62, 'AGATHE', 45, null, -10, null);
+prompt "Insertion d'un Village 'AGATHE' avec 10 trophées"
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (62, 'AGATHE', 45, null, 10, null);
+prompt "Perte de 25 trophees pour Agthe (Passage à -15)"
+UPDATE Village SET trophees =  trophees - 25 WHERE idVillage = 62;
 prompt "Affichage du nombre de trophées remis à 0"
 SELECT trophees FROM Village WHERE idVillage = 62;
 
