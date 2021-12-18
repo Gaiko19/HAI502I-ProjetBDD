@@ -35,18 +35,6 @@ AND Camp.idVillage=Village.idVillage
 AND Village.nomJoueur='JEAN'
 GROUP BY Village.nomJoueur;
 
-
-prompt 
-prompt "##########################################################"
-prompt "Requete group by : Nombre d'attaques des joueurs au dessus du niveau 50"
-prompt "##########################################################"
-prompt 
-
-SELECT Village.nomJoueur, COUNT(*) FROM Attaque, Village
-WHERE Village.idVillage = Attaque.idAttaquant
-AND Village.niveauJoueur >= 50
-GROUP BY Village.idVillage, Village.nomJoueur;
-
 prompt 
 prompt "##########################################################"
 prompt "Requete avec division : Existe-t-il un village qui possède toutes les troupes ?"
@@ -88,4 +76,15 @@ SELECT v.idVillage, v.nomJoueur, r.quantite FROM Village v, Reserves v
 WHERE v.idVillage = r.idVillage
 AND r.typeReserve = 'ELIXIRNOIR'
 AND r.quantite >= (SELECT MAX(quantite) FROM Reserves
-                  WHERE typeReserve='ELIXIRNOIR')
+                  WHERE typeReserve='ELIXIRNOIR');
+
+prompt 
+prompt "##########################################################"
+prompt "Requete group by : Nombre d'attaques des joueurs au dessus du niveau 50"
+prompt "##########################################################"
+prompt 
+
+SELECT Village.nomJoueur, COUNT(*) FROM Attaque, Village
+WHERE Village.idVillage = Attaque.idAttaquant
+AND Village.niveauJoueur >= 50
+GROUP BY Village.idVillage, Village.nomJoueur;
