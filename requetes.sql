@@ -72,7 +72,7 @@ prompt "Village(s) possédant le plus d'elixir Noir"
 prompt "##########################################################"
 prompt 
 
-SELECT v.idVillage, v.nomJoueur, r.quantite FROM Village v, Reserves v
+SELECT v.idVillage, v.nomJoueur, r.quantite FROM Village v, Reserves r
 WHERE v.idVillage = r.idVillage
 AND r.typeReserve = 'ELIXIRNOIR'
 AND r.quantite >= (SELECT MAX(quantite) FROM Reserves
