@@ -165,10 +165,12 @@ prompt "##########################################################"
 prompt "Test du trigger SupprimerClanVide"
 prompt "##########################################################"
 prompt 
+prompt "Création d'un village 'MARLON' qui sera chef de clan"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (61, 'Marlon', 45, null, 1300, null);
+prompt "Création d'un clan 'TEST2' avec Marlon comme chef"
 INSERT INTO Clan VALUES (34,'TEST2','FR', 15, 61);
 prompt "Affichage du chef de clan"
-SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND idClan = 34;
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 34;
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 prompt "Suppression du chef qui est l'unique membre"
@@ -177,3 +179,29 @@ DELETE FROM Village WHERE idVillage = 61;
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 prompt "Le clan a bien été supprimé"
+
+--Test trigger Trophées négatifs
+prompt
+prompt "##########################################################"
+prompt "Test du trigger Trophées négatifs"
+prompt "##########################################################"
+prompt 
+prompt "Insertion d'un Village 'AGATHE' avec -15 trophées"
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (62, 'AGATHE', 45, null, -10, null);
+prompt "Affichage du nombre de trophées remis à 0"
+SELECT trophees FROM Village WHERE idVillage = 62;
+
+NouvelleRéserve
+
+--Test trigger RejoindreChefClan
+prompt
+prompt "##########################################################"
+prompt "Test du trigger RejoindreChefClan"
+prompt "##########################################################"
+prompt 
+prompt "Affichage de l'idClan de Agathe"
+SELECT idClan, nomJoueur FROM Village WHERE idVillage = 62;
+prompt "Création d'un clan avec Agathe comme chef"
+INSERT INTO Clan VALUES (35,'TEST3','FR', 15, 62);
+prompt "Affichage de l'idClan de Agathe après création du clan et affectation de l'id"
+SELECT idClan, nomJoueur FROM Village WHERE idVillage = 62;
