@@ -131,16 +131,6 @@ END;
 prompt "Suppression des table"
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TABLE AttaqueDeGuerre';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -942 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
 EXECUTE IMMEDIATE 'DROP TABLE Camp';
 EXCEPTION
  WHEN OTHERS THEN
@@ -220,3 +210,5 @@ EXCEPTION
   END IF;
 END;
 /
+
+prompt "Suppression terminée"

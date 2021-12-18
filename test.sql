@@ -77,13 +77,14 @@ prompt "Test du Trigger NouvelleTroupe"
 prompt "##########################################################"
 prompt 
 prompt -Insertion de 40 archères dans le village de martin
-INSERT INTO Camp VALUES (1, 2, 18, 40);
+INSERT INTO Camp VALUES (37, 2, 60, 40);
+prompt
 
 prompt -Nombre de troupes et leurs id pour le village de Martin
 SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe; 
-prompt "Tentative d'insertion de 300 archères dans le village de martin"
-INSERT INTO Camp VALUES (20, 2, 18, 300);
 
+prompt "Tentative d'insertion de 300 archères dans le village de martin"
+INSERT INTO Camp VALUES (38, 2, 60, 300);
 
 --Test trigger rejoindre un clan s'il n'y a pas de place
 prompt
