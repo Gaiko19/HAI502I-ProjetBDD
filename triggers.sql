@@ -47,6 +47,9 @@ DECLARE
   nbMembres INTEGER;
   nouveauChef INTEGER;
 BEGIN
+  dbms_output.put_line('Declared Value:');
+  dbms_output.put_line(:new.idClan);
+  dbms_output.put_line(:old.idClan);
   IF (:old.idClan != :new.idClan) 
     THEN 
     BEGIN
