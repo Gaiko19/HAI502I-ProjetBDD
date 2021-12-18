@@ -17,6 +17,20 @@ prompt "##########################################################"
 prompt "Test du Trigger changementChefClan"
 prompt "##########################################################"
 prompt 
+prompt "Création d'un village 'VAL' qui sera chef de clan"
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (120, 'VAL', 47, null, 1300, null);
+prompt "Création d'un clan 'TEST0' avec Val comme chef"
+INSERT INTO Clan VALUES (35,'TEST0','FR', 15, 120);
+prompt "Affichage du chef de clan"
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
+
+UPDATE Village SET idClan =  null WHERE idVillage = 120;
+prompt "Suppression du chef"
+DELETE FROM Village WHERE idVillage = 120;
+
+prompt "Affichage du chef de clan"
+SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
+
 
 --Test trigger calcul Attaque (fonctionnel)
 prompt
@@ -80,7 +94,7 @@ SELECT nbrTroupe, idTroupe FROM Camp where idVillage = 60 GROUP BY idTroupe, nbr
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
 INSERT INTO Camp VALUES (38, 2, 60, 300);
 
---Test trigger rejoindre un clan s'il n'y a pas de place --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
+--Test trigger rejoindre un clan s'il n'y a pas de place --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) (BUG)
 prompt
 prompt "##########################################################"
 prompt "Test pour voir si il reste une place dans le Clan numéro 33"
@@ -159,7 +173,7 @@ prompt "Modification d'une reserve avec -2 en quantité d'or pour le village d'i
 UPDATE Reserves SET quantite = -2 WHERE (idVillage = 2) AND (typeReserve = 'OR');
 SELECT quantite FROM Reserves WHERE idVillage = 2 AND typeReserve = 'OR';
 
---Test trigger SupprimerClanVide
+--Test trigger SupprimerClanVide (BUG)
 prompt
 prompt "##########################################################"
 prompt "Test du trigger SupprimerClanVide"
@@ -173,29 +187,29 @@ prompt "Affichage du chef de clan"
 SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 34;
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
+
 prompt "Suppression du chef qui est l'unique membre"
+UPDATE Village SET idClan = null WHERE idVillage = 61;
 DELETE FROM Village WHERE idVillage = 61;
 
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 prompt "Le clan a bien été supprimé"
 
---Test trigger Trophées négatifs
+--Test trigger Trophées négatifs (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du trigger Trophées négatifs"
 prompt "##########################################################"
 prompt 
 prompt "Insertion d'un Village 'AGATHE' avec 10 trophées"
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (62, 'AGATHE', 45, null, 10, null);
-prompt "Perte de 25 trophees pour Agthe (Passage à -15)"
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (62, 'AGATHE', 22, null, 10, null);
+prompt "Perte de 25 trophees pour Agathe (Passage à -15)"
 UPDATE Village SET trophees =  trophees - 25 WHERE idVillage = 62;
 prompt "Affichage du nombre de trophées remis à 0"
 SELECT trophees FROM Village WHERE idVillage = 62;
 
-NouvelleRéserve
-
---Test trigger RejoindreChefClan
+--Test trigger RejoindreChefClan (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du trigger RejoindreChefClan"
@@ -207,3 +221,14 @@ prompt "Création d'un clan avec Agathe comme chef"
 INSERT INTO Clan VALUES (35,'TEST3','FR', 15, 62);
 prompt "Affichage de l'idClan de Agathe après création du clan et affectation de l'id"
 SELECT idClan, nomJoueur FROM Village WHERE idVillage = 62;
+
+--Test trigger NouvelleRéserve (fonctionnel)
+prompt
+prompt "##########################################################"
+prompt "Test du trigger NouvelleRéserve"
+prompt "##########################################################"
+prompt 
+prompt "Création d'un nouveau village 'LAURENT'"
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (63, 'LAURENT', 12, null, 10, null);
+prompt "Affichage des ressources du village de Laurent (Initialisées à 100000 pour chaque type)"
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 63 GROUP BY typeReserve, quantite;
