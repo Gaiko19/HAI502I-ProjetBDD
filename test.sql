@@ -1,25 +1,44 @@
-prompt "---------------------------------------------"
 --Test trigger Nom de troupe en majuscule lors de l'ajout
-prompt -Test du Trigger NomDeTroupeMajuscule
+prompt
+prompt "##########################################################"
+prompt "Test du Trigger NomDeTroupeMajuscule"
+prompt "##########################################################"
+prompt 
 INSERT INTO Troupe VALUES (25, 'gnomes', 100, 30, 1, 250, 0);
+prompt "Affichage de la nouvelle troupe"
+SELECT * FROM Troupe WHERE id = 25;
 
-prompt "---------------------------------------------"
+
 --Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax
-prompt -Test du Trigger NomDeVillageMajuscule et MiseANiveauNouveauVillage
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (18, 'martin', 45, 1200, 1300, null);
+prompt
+prompt "##########################################################"
+prompt "Test du Trigger NomVillageMajuscule et MiseANiveauNouveauVillage"
+prompt "##########################################################"
+prompt 
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (60, 'martin', 45, 1200,1300, null);
+prompt "Vérification que le nom a bien été passé en majuscule"
+SELECT nomJoueur FROM Village WHERE idVillage = 60;
+prompt "Affichage du niveau"
+SELECT niveauJoueur FROM Village WHERE idVillage = 60;
 
-prompt "---------------------------------------------"
+
 --Test trigger changement de chef
-prompt -Test du Trigger changementChefDeClan
+prompt
+prompt "##########################################################"
+prompt "Test du Trigger changementChefClan"
+prompt "##########################################################"
+prompt 
 
-
-prompt "---------------------------------------------"
 --Test trigger calcul Attaque
-prompt -Test du Trigger calculAttaque
+prompt
+prompt "##########################################################"
+prompt "Test du Trigger calculAttaque"
+prompt "##########################################################"
+prompt 
 
 prompt "Ajout de l'attaquant"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (19, 'attaquant', 45, 1200, 1300, null);
-prompt -Ajout du defenseur
+prompt "Ajout du defenseur"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (20, 'defenseur', 55, 1200, 1350, null);
 
 prompt "Affichage des trophees du village attaquant avant l'attaque"
@@ -35,10 +54,12 @@ SELECT Trophees FROM Village where idVillage = 19;
 prompt "Affichage des trophees du village defenseur après l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
 
-prompt "---------------------------------------------"
 --Test trigger ajout de troupe si on à la place
-prompt -Test du Trigger nouvelleTroupe
-
+prompt
+prompt "##########################################################"
+prompt "Test du Trigger NouvelleTroupe"
+prompt "##########################################################"
+prompt 
 prompt -Insertion de 40 archères dans le village de martin
 INSERT INTO Camp VALUES (1, 2, 18, 40);
 
@@ -47,9 +68,13 @@ SELECT nbrTroupe, idTroupe FROM Camp where idVillage=18 GROUP BY idTroupe;
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
 INSERT INTO Camp VALUES (20, 2, 18, 300);
 
-prompt "---------------------------------------------"
+
 --Test trigger rejoindre un clan s'il n'y a pas de place
-prompt -Test pour voir si il reste une place dans le idClan
+prompt
+prompt "##########################################################"
+prompt "Test pour voir si il reste une place dans le idClan"
+prompt "##########################################################"
+prompt 
 prompt "Creation d'un clan avec Martin comme chef"
 INSERT INTO Clan VALUES (33,'TEST','FR',15, 18);
 
@@ -113,8 +138,11 @@ INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (148, '49', 33);
 prompt "Tentative d'insertion d'un 51eme membre"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (149, '50', 33);
 
-prompt "---------------------------------------------"
 --Test trigger passage des reserves en négatif à 0
-prompt -Test passage des reserves en négatif à 0
+prompt
+prompt "##########################################################"
+prompt "Test passage des reserves en négatif à 0"
+prompt "##########################################################"
+prompt 
 prompt "Modification d'une reserve"
 UPDATE Reserves SET (quantite = -2) WHERE (idVillage == 2) AND (typeReserve == 'OR');
