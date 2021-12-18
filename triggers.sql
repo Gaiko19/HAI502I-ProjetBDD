@@ -32,9 +32,9 @@ BEGIN
   FOR record IN (SELECT idVillage FROM Village WHERE idVillage NOT IN (SELECT idVillage FROM Reserves))
   LOOP
     qMax := calculQuantiteMax(record.idVillage);
-    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 0);
-    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 0);
-    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 0);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
   END LOOP;
 END;
 /
