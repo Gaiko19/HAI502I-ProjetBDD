@@ -46,12 +46,14 @@ DECLARE
   idChef INTEGER;
   nbMembres INTEGER;
   nouveauChef INTEGER;
+  TABLE_MUTANTE EXCEPTION;
+  PRAGMA EXCEPTION_INIT(TABLE_MUTANTE, -4091);
 BEGIN
   dbms_output.put_line('Declared Value:');
   dbms_output.put_line(:new.idClan);
   dbms_output.put_line(:old.idClan);
-  IF (:old.idClan != :new.idClan) 
-    THEN 
+  IF NOT(:old.idClan == :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
+    THEN
     BEGIN
       SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
       SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
@@ -60,7 +62,7 @@ BEGIN
         THEN
           DELETE FROM Clan WHERE idClan = :old.idClan;
       ELSIF (:new.idVillage = idChef) 
-        THEN 
+        THEN
           BEGIN
             SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
             UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
@@ -68,6 +70,9 @@ BEGIN
       END IF;
     END;
   END IF;
+EXCEPTION
+  WHEN TABLE_MUTANTE THEN 
+  DBMS_OUTPUT.PUT_LINE('Fausse alerte');
 END;
 /
 
