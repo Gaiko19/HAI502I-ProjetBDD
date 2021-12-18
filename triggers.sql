@@ -162,7 +162,7 @@ DECLARE
 BEGIN
   SELECT COUNT(*) INTO nbMembres FROM Village
   WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 50 
+  IF nbMembres >= 30 
     THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
   END IF;
 END;
