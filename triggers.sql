@@ -155,14 +155,14 @@ prompt "Trigger RejoindrePlaceClan"
 
 --[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
 CREATE OR REPLACE TRIGGER RejoindrePlaceClan
-BEFORE UPDATE ON Clan
+BEFORE INSERT ON Clan
 FOR EACH ROW
 DECLARE
   nbMembres INTEGER;
 BEGIN
   SELECT COUNT(*) INTO nbMembres FROM Village
   WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 30 
+  IF nbMembres >= 50
     THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
   END IF;
 END;
