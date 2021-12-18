@@ -26,10 +26,9 @@ SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.id
 
 UPDATE Village SET idClan =  null WHERE idVillage = 200;
 prompt "Suppression du chef"
-
+prompt
 prompt "Affichage du chef de clan"
 SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.idClan AND Village.idClan = 36;
-
 
 --Test trigger calcul Attaque (fonctionnel)
 prompt
@@ -109,19 +108,20 @@ prompt "##########################################################"
 prompt "Test du trigger SupprimerClanVide"
 prompt "##########################################################"
 prompt 
-
+--////////////////////////////////////////////////////////////////////////////--
 prompt "Création d'un village 'MARLON' qui sera chef de clan"
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (61, 'Marlon', 45, null, 1300, null);
 prompt "Création d'un clan 'TEST2' avec Marlon comme chef"
 INSERT INTO Clan VALUES (34,'TEST2','FR', 15, 61);
+--////////////////////////////////////////////////////////////////////////////--
 prompt "Affichage du chef de clan"
 SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idClan = Village.idClan AND Village.idClan = 34;
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
-
+--////////////////////////////////////////////////////////////////////////////--
 prompt "Suppression du chef qui est l'unique membre"
 UPDATE Village SET idClan = null WHERE idVillage = 61;
-
+--////////////////////////////////////////////////////////////////////////////--
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 prompt "Le clan a bien été supprimé"

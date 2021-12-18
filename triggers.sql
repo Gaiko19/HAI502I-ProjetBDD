@@ -42,6 +42,7 @@ prompt "Trigger changementChefDeClan"
 CREATE OR REPLACE TRIGGER changementChefDeClan
 AFTER UPDATE ON Village
 FOR EACH ROW
+SET SERVEROUTPUT ON;
 DECLARE
   idChef INTEGER;
   nbMembres INTEGER;
@@ -52,8 +53,9 @@ BEGIN
     BEGIN
       SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
       SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+      DBMS_OUTPUT.put_line(nbMembres);
       IF (nbMembres <= 0) 
-        THEN 
+        THEN
           DELETE FROM Clan WHERE idClan = :old.idClan;
       ELSIF (:new.idVillage = idChef) 
         THEN 
