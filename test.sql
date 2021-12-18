@@ -1,4 +1,4 @@
---Test trigger Nom de troupe en majuscule lors de l'ajout
+--Test trigger Nom de troupe en majuscule lors de l'ajout (fonctionnelle)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NomDeTroupeMajuscule"
@@ -6,10 +6,10 @@ prompt "##########################################################"
 prompt 
 INSERT INTO Troupe VALUES (25, 'gnomes', 100, 30, 1, 250, 0);
 prompt "Affichage de la nouvelle troupe"
-SELECT * FROM Troupe WHERE id = 25;
+SELECT * FROM Troupe WHERE idTroupe = 25;
 
 
---Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax
+--Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax (fonctionnelle)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NomVillageMajuscule et MiseANiveauNouveauVillage"
@@ -19,7 +19,7 @@ INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophee
 prompt "Vérification que le nom a bien été passé en majuscule"
 SELECT nomJoueur FROM Village WHERE idVillage = 60;
 prompt "Affichage du niveau"
-SELECT niveauJoueur FROM Village WHERE idVillage = 60;
+SELECT niveauJoueur, capaciteeCampMax FROM Village WHERE idVillage = 60;
 
 
 --Test trigger changement de chef
@@ -46,9 +46,10 @@ SELECT Trophees FROM Village where idVillage = 19;
 prompt "Affichage des trophees du village defenseur avant l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
 
+INSERT INTO Attaque VALUES (21, 19, 20, 15, 3, 100, 1200, 1400, 1000, null);
+
 prompt -Attaque terminée
 
-INSERT INTO Attaque VALUES (21, 19, 20, 3, 100, 12000, 14000, 1000, null);
 prompt "Affichage des trophees du village attaquant après l'attaque"
 SELECT Trophees FROM Village where idVillage = 19;
 prompt "Affichage des trophees du village defenseur après l'attaque"
