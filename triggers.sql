@@ -46,8 +46,6 @@ DECLARE
   idChef INTEGER;
   nbMembres INTEGER;
   nouveauChef INTEGER;
-  TABLE_MUTANTE EXCEPTION;
-  PRAGMA EXCEPTION_INIT(TABLE_MUTANTE, -4091);
 BEGIN
   dbms_output.put_line('Declared Value:');
   dbms_output.put_line(:new.idClan);
@@ -70,8 +68,6 @@ BEGIN
       END IF;
     END;
   END IF;
-EXCEPTION
-  WHEN TABLE_MUTANTE THEN DBMS_OUTPUT.PUT_LINE('Fausse alerte');
 END;
 /
 
