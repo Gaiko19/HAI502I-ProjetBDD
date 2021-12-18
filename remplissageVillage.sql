@@ -1,4 +1,4 @@
-prompt "Insertion des tubles Troupe"
+prompt "Insertion des tuples Troupe"
 
 
 --INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
@@ -47,6 +47,7 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (14, 'CUISINE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (15, 'DARK');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (16, 'WHITE');
 INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'JEAN', 250, 4000);
 
 prompt "Insertion des tuples Heros"
 
@@ -101,13 +102,13 @@ INSERT INTO Clan VALUES (10,'FLAMENCO', 'ES', 7,17);
 prompt "Ajout de membres à des clans"
 
 -- Ajout de membres dans des clans (un trigger s'occupe déjà de rajouter le chef)
-UPDATE Village SET idClan = 1 WHERE idVillage == 2;
-UPDATE Village SET idClan = 1 WHERE idVillage == 11;
-UPDATE Village SET idClan = 1 WHERE idVillage == 4;
-UPDATE Village SET idClan = 4 WHERE idVillage == 5;
-UPDATE Village SET idClan = 3 WHERE idVillage == 6;
-UPDATE Village SET idClan = 2 WHERE idVillage == 8;
-UPDATE Village SET idClan = 2 WHERE idVillage == 9;
+UPDATE Village SET idClan = 1 WHERE idVillage = 2;
+UPDATE Village SET idClan = 1 WHERE idVillage = 11;
+UPDATE Village SET idClan = 1 WHERE idVillage = 4;
+UPDATE Village SET idClan = 4 WHERE idVillage = 5;
+UPDATE Village SET idClan = 3 WHERE idVillage = 6;
+UPDATE Village SET idClan = 2 WHERE idVillage = 8;
+UPDATE Village SET idClan = 2 WHERE idVillage = 9;
 
 prompt "Insertion des tuples GuerreDeClan"
 
@@ -124,18 +125,57 @@ INSERT INTO GuerreDeClan VALUES (9,4,7,10);
 INSERT INTO GuerreDeClan VALUES (10,10,2,5);
 
 prompt "Insertion des tuples Reserves"
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 2) AND (typeReserve == 'OR');
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 2) AND (typeReserve == 'ELIXIR');
-UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 2) AND (typeReserve == 'ELIXIRNOIR');
-UPDATE Reserves SET (quantite = 100000) WHERE (idVillage == 3) AND (typeReserve == 'OR');
-UPDATE Reserves SET (quantite = 100000) WHERE (idVillage == 3) AND (typeReserve == 'ELIXIR');
-UPDATE Reserves SET (quantite = 1000) WHERE (idVillage == 3) AND (typeReserve == 'ELIXIRNOIR');
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 4) AND (typeReserve == 'OR');
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 4) AND (typeReserve == 'ELIXIR');
-UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 4) AND (typeReserve == 'ELIXIRNOIR');
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserve == 'OR');
-UPDATE Reserves SET (quantite = 1000000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIR');
-UPDATE Reserves SET (quantite = 10000) WHERE (idVillage == 11) AND (typeReserve == 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 2) AND (typeReserve = 'OR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 2) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 2) AND (typeReserve = 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = 100000 WHERE (idVillage = 3) AND (typeReserve = 'OR');
+UPDATE Reserves SET quantite = 100000 WHERE (idVillage = 3) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = 1000 WHERE (idVillage = 3) AND (typeReserve = 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 4) AND (typeReserve = 'OR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 4) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 4) AND (typeReserve = 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 11) AND (typeReserve = 'OR');
+UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 11) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 11) AND (typeReserve = 'ELIXIRNOIR');
 
-prompt "Insertion des tuples Camp"
+prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
+INSERT INTO Camp VALUES (1, 2, 14, 40);
+INSERT INTO Camp VALUES (2, 16, 2, 5);
+INSERT INTO Camp VALUES (7, 14, 2, 3);
+INSERT INTO Camp VALUES (23, 22, 2, 2);
+INSERT INTO Camp VALUES (5, 5, 5, 3);
+INSERT INTO Camp VALUES (3, 3, 3, 2);
+INSERT INTO Camp VALUES (6, 6, 6, 1);
+INSERT INTO Camp VALUES (4, 9, 4, 9);
+INSERT INTO Camp VALUES (8, 10, 8, 2);
+INSERT INTO Camp VALUES (9, 16, 9, 12);
+INSERT INTO Camp VALUES (10, 22, 10, 8);
 
+
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
+
+INSERT INTO Camp VALUES (11, 1, 18, 1);
+INSERT INTO Camp VALUES (12, 2, 18, 1);
+INSERT INTO Camp VALUES (13, 3, 18, 1);
+INSERT INTO Camp VALUES (14, 4, 18, 1);
+INSERT INTO Camp VALUES (15, 5, 18, 1);
+INSERT INTO Camp VALUES (16, 6, 18, 1);
+INSERT INTO Camp VALUES (17, 7, 18, 1);
+INSERT INTO Camp VALUES (18, 8, 18, 1);
+INSERT INTO Camp VALUES (19, 9, 18, 1);
+INSERT INTO Camp VALUES (20, 10, 18, 1);
+INSERT INTO Camp VALUES (21, 11, 18, 1);
+INSERT INTO Camp VALUES (22, 12, 18, 1);
+INSERT INTO Camp VALUES (24, 14, 18, 1);
+INSERT INTO Camp VALUES (26, 16, 18, 1);
+INSERT INTO Camp VALUES (27, 17, 18, 1);
+INSERT INTO Camp VALUES (28, 18, 18, 1);
+INSERT INTO Camp VALUES (29, 19, 18, 1);
+INSERT INTO Camp VALUES (30, 20, 18, 1);
+INSERT INTO Camp VALUES (31, 21, 18, 1);
+INSERT INTO Camp VALUES (32, 22, 18, 1);
+INSERT INTO Camp VALUES (33, 23, 18, 1);
+INSERT INTO Camp VALUES (34, 24, 18, 1);
+INSERT INTO Camp VALUES (35, 13, 18, 1);
+INSERT INTO Camp VALUES (36, 15, 18, 1);

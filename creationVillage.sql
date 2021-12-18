@@ -112,22 +112,24 @@ prompt "Création des relations"
 
 CREATE TABLE Village(
 	idVillage NUMBER(10) NOT NULL, 
-  nomJoueur VARCHAR(20) UNIQUE NOT NULL,
+  nomJoueur VARCHAR(20) NOT NULL,
   niveauJoueur NUMBER(10) DEFAULT 1,
-  capaciteeCampMax NUMBER(10) NOT NULL,
+  capaciteeCampMax NUMBER(10) DEFAULT 100,
   trophees NUMBER(10) DEFAULT 100,
   idClan NUMBER(10),
-  CONSTRAINT PK_IDVILLLAGE PRIMARY KEY (idVillage)
+  CONSTRAINT PK_IDVILLLAGE PRIMARY KEY (idVillage),
+  CONSTRAINT UN_NOMJ UNIQUE (nomJoueur)
 );
 
 CREATE TABLE Clan(
   idClan NUMBER(10),
-  nomClan VARCHAR(20) UNIQUE NOT NULL,
+  nomClan VARCHAR(20) NOT NULL,
   regionClan VARCHAR(20),
   niveauClan NUMBER(10) DEFAULT 1 NOT NULL,
   idChefDeClan NUMBER(10) NOT NULL,
   CONSTRAINT PK_idClan PRIMARY KEY (idClan),
-  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (idchefDeClan) REFERENCES Village(idVillage)
+  CONSTRAINT FK_CHEFDECLAN FOREIGN KEY (idchefDeClan) REFERENCES Village(idVillage),
+  CONSTRAINT UN_NOMC UNIQUE (nomClan)
 );
 
 CREATE TABLE Troupe(
@@ -166,7 +168,7 @@ CREATE TABLE Reserves(
   typeReserve VARCHAR(10) CHECK(typeReserve IN ('OR', 'ELIXIR', 'ELIXIRNOIR')),
   quantiteMax NUMBER(10) NOT NULL,
   quantite NUMBER(10) DEFAULT 0,
-  CONSTRAINT PK_IDVILLAGE PRIMARY KEY (idVillage),
+  CONSTRAINT PK_IDVILLAGE PRIMARY KEY (idVillage, typeReserve),
   CONSTRAINT FK_idVillageReserve FOREIGN KEY (idVillage) REFERENCES Village(idVillage)
 );
 

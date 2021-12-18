@@ -1,130 +1,11 @@
-/*  ==============================
-    |  Suppression des triggers |
-    ==============================
-*/
-
-prompt "Suppression des Triggers"
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER NomTroupeMajuscule ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouveauVillage ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleReserve ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER changementChefDeClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER calculAttaque ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER nouvelleTroupe ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER RejoindreChefClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER RejoindrePlaceClan ';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER SupprimerClanVide';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER calculReservesNegatives';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -4080 THEN
-  RAISE;
-  END IF;
-END;
-/
-
 /*  ===========================
     |  Création des triggers |
     ===========================
 */  
 
-prompt -Lancement des Triggers 
-
-prompt "Trigger NomTroupeMajuscule"
-
---[Trigger Nom de la troupe en majuscule]
-CREATE OR REPLACE TRIGGER NomTroupeMajuscule
-BEFORE INSERT ON Troupe
-FOR EACH ROW
-BEGIN
-  :new.nomTroupe := UPPER(:new.nomTroupe);
-END;
-/
+prompt "Lancement des Triggers" 
 
 prompt "Trigger nouveauVillage"
-
 --[Trigger pour créer un nouveau village et calculer sa capcitée Max]
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village
@@ -133,155 +14,171 @@ BEGIN
   :new.nomJoueur := UPPER(:new.nomJoueur);
   IF (:new.niveauJoueur IS NULL) THEN :new.niveauJoueur := 1;
   END IF;
-  calculCapaMax(:new.niveauJoueur,:new.capaciteeCampMax);
+  IF (:new.capaciteeCampMax IS NULL) THEN
+  calculCapaciteMax(:new.niveauJoueur,:new.capaciteeCampMax);
+  END IF;
 END;
 /
 
 prompt "Trigger nouvelleReserve"
-
---[trigger qui ajoute une reserve à chaque création d'un village]
+--[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
-FOR EACH ROW
 DECLARE
-  qMax;
+  qMax INTEGER;
 BEGIN
-  SELECT calculQuantiteMax(idVillage) INTO qMax FROM Village WHERE idvillage = :new.idVillage;
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'OR', qMax);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIR', qMax);
-  INSERT INTO Reserves(idVillage, typeReserve, quantiteMax) VALUES(:new.idVillage, 'ELIXIRNOIR', qMax);
+  FOR record IN (SELECT idVillage FROM Village WHERE idVillage NOT IN (SELECT idVillage FROM Reserves))
+  LOOP
+    qMax := calculQuantiteMax(record.idVillage);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
+    INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
+  END LOOP;
 END;
 /
 
 prompt "Trigger changementChefDeClan"
-
---[trigger chef de clan défini aléatoirement si le chef quitte]
+--[trigger Un nouveau chef de clan est défini aléatoirement si le chef quitte, et supprime le clan si le clan est vide]
 CREATE OR REPLACE TRIGGER changementChefDeClan
 AFTER UPDATE ON Village
 FOR EACH ROW
 DECLARE
-  idChef;
-  nbMembres;
-  nouveauChef;
+  idChef INTEGER;
+  nbMembres INTEGER;
+  nouveauChef INTEGER;
 BEGIN
-  IF (:old.idClan != :new.idClan) THEN BEGIN
-    SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
-    SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
-
-    IF (nbMembres <= 0) THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
-    ELSIF (:new.idVillage == idChef) THEN BEGIN
-      SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
-      UPDATE Clan SET (idChefDeClan = nouveauChef) WHERE idClan = :old.idClan
-      END;
-    END IF;
+  dbms_output.put_line('Declared Value:');
+  dbms_output.put_line(:new.idClan);
+  dbms_output.put_line(:old.idClan);
+  IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
+    THEN
+    BEGIN
+      SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
+      SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+      dbms_output.put_line(nbMembres);
+      IF (nbMembres <= 0) 
+        THEN
+          DELETE FROM Clan WHERE idClan = :old.idClan;
+      ELSIF (:new.idVillage = idChef) 
+        THEN
+          BEGIN
+            SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
+            UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
+          END;
+      END IF;
     END;
   END IF;
 END;
 /
 
-prompt "Trigger calculAttaque"
+prompt "Trigger calculTrophéesNegatifs"
+--[trigger si les Trophées sont en négatif, ils passent à 0]
+CREATE OR REPLACE TRIGGER calculTropheesNegatifs
+BEFORE UPDATE ON Village
+FOR EACH ROW
+BEGIN
+  IF :new.trophees < 0 
+    THEN :new.trophees := 0;
+  END IF;
+END;
+/
 
+
+
+prompt "Trigger calculAttaque"
 --[trigger pour ajouter à l'attaquant les ressources gagnées et les trophées après une attaque et les enlever au défenseur]
 CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (trophees += :new.tropheesPris) WHERE (idVillage=:new.idAttaquant);
-  UPDATE Reserves SET (quantite += :new.orRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
-  UPDATE Reserves SET (quantite += :new.elixirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite += :new.elixirNoirRecolte) WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
-  UPDATE Village SET (trophees -= :new.tropheesPris) WHERE (idVillage=:new.idDefenseur);
-  UPDATE Reserves SET (quantite -= :new.orRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
-  UPDATE Reserves SET (quantite -= :new.elixirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
-  UPDATE Reserves SET (quantite -= :new.elixirNoirRecolte) WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET trophees = trophees + :new.tropheesPris WHERE (idVillage=:new.idAttaquant); 
+  UPDATE Reserves SET quantite = quantite + :new.orRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='OR');
+  UPDATE Reserves SET quantite = quantite + :new.elixirRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIR');
+  UPDATE Reserves SET quantite = quantite + :new.elixirNoirRecolte WHERE (idVillage=:new.idAttaquant AND typeReserve='ELIXIRNOIR');
+  UPDATE Village SET trophees = trophees - :new.tropheesPris WHERE (idVillage=:new.idDefenseur);
+  UPDATE Reserves SET quantite = quantite - :new.orRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='OR');
+  UPDATE Reserves SET quantite = quantite - :new.elixirRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIR');
+  UPDATE Reserves SET quantite = quantite - :new.elixirNoirRecolte WHERE (idVillage=:new.idDefenseur AND typeReserve='ELIXIRNOIR');
 END;
 /
 
 prompt "Trigger nouvelleTroupe"
-
 --[trigger pour créer une troupe en vérifiant qu'on a la place et les ressources nécessaires]
 CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
 FOR EACH ROW
 DECLARE
-  var1 number;
-  var2 number;
-  var3 number;
+  placeTotalePrise INTEGER;
+  elixirDispo INTEGER;
+  elixirNoirDispo INTEGER;
+  elixirPrix INTEGER;
+  elixirNoirPrix INTEGER;
+  capaMaxVillage INTEGER;
 BEGIN
-  (SELECT SUM(placeOccupee * nbrTroupe) INTO var1 FROM Camp, Troupe
-  WHERE Camp.typeTroupe = Troupe.idTroupe AND Camp.idVillage = :new.idVillage);
-
-  (SELECT quantite INTO var2 FROM Reserves 
-  WHERE Reserves.idVillage == :new.idVillage AND typeReserve == 'ELIXIR');
-
-  (SELECT quantite INTO var3 FROM Reserves 
-  WHERE Reserves.idVillage == :new.idVillage AND typeReserve == 'ELIXIRNOIR');
-
-  IF ((:new.idVillage.capaciteeCampMax >= var1 + :new.typeTroupe.) 
-  AND (var2 >= :new.typeTroupe.prixElixir) 
-  AND (var3 >= :new.typeTroupe.prixElixirNoir)) THEN BEGIN
-    UPDATE Reserves SET (quantite -= var2) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
-    UPDATE Reserves SET (quantite -= var3) WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
-  END;
-  ELSE THEN RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
+  SELECT placeOccupee * :new.nbrTroupe INTO placeTotalePrise FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT quantite INTO elixirDispo FROM Reserves 
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIR';
+  SELECT quantite INTO elixirNoirDispo FROM Reserves 
+  WHERE Reserves.idVillage = :new.idVillage AND typeReserve = 'ELIXIRNOIR';
+  SELECT prixElixir * :new.nbrTroupe INTO elixirPrix FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT prixElixirNoir * :new.nbrTroupe INTO elixirNoirPrix FROM Troupe
+  WHERE idTroupe = :new.idTroupe;
+  SELECT capaciteeCampMax INTO capaMaxVillage FROM Village
+  WHERE idVillage = :new.idVillage;
+  IF ((capaMaxVillage >= placeTotalePrise) AND (elixirDispo >= elixirPrix) AND (elixirNoirDispo >= elixirNoirPrix)) THEN BEGIN
+    UPDATE Reserves SET quantite = quantite - elixirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
+    UPDATE Reserves SET quantite = quantite - elixirNoirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
+    END; 
+  ELSE RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
   END IF;
 END;
 /
 
 prompt "Trigger RejoindreChefClan"
-
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
-AFTER INSERT ON Clan
+AFTER INSERT OR UPDATE ON Clan
 FOR EACH ROW
 BEGIN
-  UPDATE Village SET (idClan = :new.idClan) WHERE idVillage = :new.idChefDeClan;
-END;
-/
-
-prompt "Trigger RejoindrePlaceClan"
-
---[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
-CREATE OR REPLACE TRIGGER RejoindrePlaceClan
-BEFORE UPDATE ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 50 THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
-  END IF;
-END;
-/
-
-prompt "Trigger SupprimerClanVide"
-
---[trigger pour supprimer un clan s'il est vide]
-CREATE OR REPLACE TRIGGER SupprimerClanVide
-AFTER UPDATE ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres <= 0 THEN DELETE FROM Clan WHERE idClan = :new.idChefDeClan
-  END IF;
+  UPDATE Village SET idClan = :new.idClan WHERE idVillage = :new.idChefDeClan;
 END;
 /
 
 prompt "Trigger calculReservesNegatives"
-
 --[trigger si les réserves sont en négatif, elles passent à 0]
 CREATE OR REPLACE TRIGGER calculReservesNegatives
 BEFORE UPDATE ON Reserves
 FOR EACH ROW
 BEGIN
-  IF :new.quantite < 0 THEN :new.quantite := 0
+  IF :new.quantite < 0 
+    THEN :new.quantite := 0;
   END IF;
 END;
 /
 
 
 prompt -Triggers lancés
+
+
+
+
+
+/*
+prompt "Trigger RejoindrePlaceClan"
+--[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
+CREATE OR REPLACE TRIGGER RejoindrePlaceClan
+AFTER UPDATE ON Village
+FOR EACH ROW
+DECLARE
+  nbMembres INTEGER;
+BEGIN
+  SELECT COUNT(*) INTO nbMembres FROM Village
+  WHERE Village.idClan = :new.idClan;
+  IF nbMembres >= 50
+    THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
+  END IF;
+END;
+/
+*/
