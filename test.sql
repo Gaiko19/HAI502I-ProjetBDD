@@ -18,15 +18,16 @@ prompt "Test du Trigger changementChefClan"
 prompt "##########################################################"
 prompt 
 prompt "Création d'un village 'VAL' qui sera chef de clan"
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (120, 'VAL', 47, null, 1300, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (200, 'VAL', 47, null, 1300, null);
 prompt "Création d'un clan 'TEST0' avec Val comme chef"
-INSERT INTO Clan VALUES (35,'TEST0','FR', 15, 120);
+INSERT INTO Clan VALUES (36,'TEST0','FR', 15, 120);
 prompt "Affichage du chef de clan"
 SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
 
-UPDATE Village SET idClan =  null WHERE idVillage = 120;
+UPDATE Village SET idClan =  null WHERE idVillage = 200;
+UPDATE Clan SET idChefDeClan = null WHERE idClan = 36;
 prompt "Suppression du chef"
-DELETE FROM Village WHERE idVillage = 120;
+DELETE FROM Village WHERE idVillage = 200;
 
 prompt "Affichage du chef de clan"
 SELECT idChefDeClan, nomJoueur FROM Clan, Village WHERE Clan.idVillage = Village.idVillage AND Village.idClan = 36;
@@ -190,6 +191,7 @@ SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 
 prompt "Suppression du chef qui est l'unique membre"
 UPDATE Village SET idClan = null WHERE idVillage = 61;
+UPDATE Clan SET idChefDeClan = null WHERE idClan = 34;
 DELETE FROM Village WHERE idVillage = 61;
 
 prompt "Affichage de tous les clans"
