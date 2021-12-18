@@ -52,7 +52,7 @@ BEGIN
   dbms_output.put_line('Declared Value:');
   dbms_output.put_line(:new.idClan);
   dbms_output.put_line(:old.idClan);
-  IF NOT(:old.idClan == :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
+  IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
     THEN
     BEGIN
       SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
@@ -71,8 +71,7 @@ BEGIN
     END;
   END IF;
 EXCEPTION
-  WHEN TABLE_MUTANTE THEN 
-  DBMS_OUTPUT.PUT_LINE('Fausse alerte');
+  WHEN TABLE_MUTANTE THEN DBMS_OUTPUT.PUT_LINE('Fausse alerte');
 END;
 /
 
