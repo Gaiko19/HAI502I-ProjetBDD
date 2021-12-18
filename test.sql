@@ -51,10 +51,10 @@ prompt
 prompt "Affichage des ressources du village attaquant avant l'attaque"
 SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve, quantite;
 prompt "Affichage des ressources du village defenseur avant l'attaque"
-SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve, quantite;
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 20 GROUP BY typeReserve, quantite;
 --////////////////////////////////////////////////////////////////////////////--
 
-INSERT INTO Attaque VALUES (21, 19, 20, 15, 3, 100, 1200, 1400, 1000, null);
+INSERT INTO Attaque VALUES (21, 19, 20, 15, 3, 100, 12000, 14000, 10000, null);
 
 --////////////////////////////////////////////////////////////////////////////--
 prompt -Attaque terminée (perte de trophées)
@@ -68,7 +68,7 @@ prompt -Attaque terminée (perte de ressources)
 prompt "Affichage des ressources du village attaquant après l'attaque (Gagné  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
 SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve, quantite;
 prompt "Affichage des ressources du village defenseur après l'attaque (Perdu  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
-SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve, quantite;
+SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 20 GROUP BY typeReserve, quantite;
 
 --Test trigger ajout de troupe si on à la place
 prompt
