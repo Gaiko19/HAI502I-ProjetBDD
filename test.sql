@@ -1,21 +1,10 @@
---Test trigger Nom de troupe en majuscule lors de l'ajout (fonctionnel)
-prompt
-prompt "##########################################################"
-prompt "Test du Trigger NomDeTroupeMajuscule"
-prompt "##########################################################"
-prompt 
-INSERT INTO Troupe VALUES (25, 'gnomes', 100, 30, 1, 250, 0);
-prompt "Affichage de la nouvelle troupe"
-SELECT * FROM Troupe WHERE idTroupe = 25;
-
-
 --Test trigger Nom de village en majuscule lors de l'ajout et calcul capamax (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du Trigger NomVillageMajuscule et MiseANiveauNouveauVillage"
 prompt "##########################################################"
 prompt 
-INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (60, 'martin', 45, 1200,1300, null);
+INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (60, 'martin', 45, null, 1300, null);
 prompt "Vérification que le nom a bien été passé en majuscule"
 SELECT nomJoueur FROM Village WHERE idVillage = 60;
 prompt "Affichage du niveau"
@@ -65,9 +54,9 @@ prompt "Affichage des trophees du village defenseur après l'attaque"
 SELECT Trophees FROM Village where idVillage = 20;
 
 prompt -Attaque terminée (perte de ressources)
-prompt "Affichage des ressources du village attaquant après l'attaque (Gagné  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
+prompt "Affichage des ressources du village attaquant après l'attaque (Gagné  = 12000 Or, 14000 Elixir, 10000 elixir Noir"
 SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 19 GROUP BY typeReserve, quantite;
-prompt "Affichage des ressources du village defenseur après l'attaque (Perdu  = 1200 Or, 1400 Elixir, 1000 elixir Noir"
+prompt "Affichage des ressources du village defenseur après l'attaque (Perdu  = 12000 Or, 14000 Elixir, 10000 elixir Noir"
 SELECT typeReserve, quantite FROM Reserves WHERE idVillage = 20 GROUP BY typeReserve, quantite;
 
 --Test trigger ajout de troupe si on à la place prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe) (fonctionnel)
@@ -94,7 +83,7 @@ INSERT INTO Camp VALUES (38, 2, 60, 300);
 --Test trigger rejoindre un clan s'il n'y a pas de place --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) 
 prompt
 prompt "##########################################################"
-prompt "Test pour voir si il reste une place dans le idClan"
+prompt "Test pour voir si il reste une place dans le Clan numéro 33"
 prompt "##########################################################"
 prompt 
 prompt "Creation d'un clan avec Martin comme chef"
@@ -166,5 +155,6 @@ prompt "##########################################################"
 prompt "Test passage des reserves en négatif à 0"
 prompt "##########################################################"
 prompt 
-prompt "Modification d'une reserve"
+prompt "Modification d'une reserve avec -2 en quantité d'or pour le village d'id 2"
 UPDATE Reserves SET quantite = -2 WHERE (idVillage = 2) AND (typeReserve = 'OR');
+SELECT quantite FROM Reserves WHERE idVillage = 2 AND typeReserve = 'OR';
