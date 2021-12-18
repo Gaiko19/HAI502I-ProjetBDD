@@ -95,6 +95,7 @@ SELECT nbrTroupe, idTroupe FROM Camp where idVillage = 60 GROUP BY idTroupe, nbr
 prompt "Tentative d'insertion de 300 archères dans le village de martin"
 INSERT INTO Camp VALUES (38, 2, 60, 300);
 
+/*
 --Test trigger rejoindre un clan s'il n'y a pas de place --INSERT INTO Clan VALUES (ID,Nom,region,niveau,chef) (BUG)
 prompt
 prompt "##########################################################"
@@ -104,7 +105,7 @@ prompt
 prompt "Creation d'un clan avec Martin comme chef"
 INSERT INTO Clan VALUES (33,'TEST','FR', 15, 60);
 
-prompt "Création de 49 membres (C'est long)"
+prompt "Création de 49 membres (C'est /très/ long)"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (100, '1', 33);
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (101, '2', 33);
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (102, '3', 33);
@@ -163,6 +164,8 @@ INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (148, '49', 33);
 
 prompt "Tentative d'insertion d'un 51eme membre"
 INSERT INTO Village(idVillage, nomJoueur, idClan) VALUES (149, '50', 33);
+*/
+
 
 --Test trigger passage des reserves en négatif à 0 (fonctionnel)
 prompt

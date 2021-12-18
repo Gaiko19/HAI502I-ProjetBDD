@@ -6,7 +6,6 @@
 prompt "Lancement des Triggers" 
 
 prompt "Trigger nouveauVillage"
-
 --[Trigger pour créer un nouveau village et calculer sa capcitée Max]
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village
@@ -22,7 +21,6 @@ END;
 /
 
 prompt "Trigger nouvelleReserve"
-
 --[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
@@ -40,8 +38,7 @@ END;
 /
 
 prompt "Trigger changementChefDeClan"
-
---[trigger chef de clan défini aléatoirement si le chef quitte]
+--[trigger Un nouveau chef de clan est défini aléatoirement si le chef quitte, et supprime le clan si le clan est vide]
 CREATE OR REPLACE TRIGGER changementChefDeClan
 AFTER UPDATE ON Village
 FOR EACH ROW
@@ -70,10 +67,7 @@ BEGIN
 END;
 /
 
-
-
 prompt "Trigger calculTrophéesNegatifs"
-
 --[trigger si les Trophées sont en négatif, ils passent à 0]
 CREATE OR REPLACE TRIGGER calculTropheesNegatifs
 BEFORE UPDATE ON Village
@@ -88,7 +82,6 @@ END;
 
 
 prompt "Trigger calculAttaque"
-
 --[trigger pour ajouter à l'attaquant les ressources gagnées et les trophées après une attaque et les enlever au défenseur]
 CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
@@ -106,7 +99,6 @@ END;
 /
 
 prompt "Trigger nouvelleTroupe"
-
 --[trigger pour créer une troupe en vérifiant qu'on a la place et les ressources nécessaires]
 CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
@@ -141,7 +133,6 @@ END;
 /
 
 prompt "Trigger RejoindreChefClan"
-
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
 AFTER INSERT OR UPDATE ON Clan
@@ -151,42 +142,7 @@ BEGIN
 END;
 /
 
-prompt "Trigger RejoindrePlaceClan"
-
---[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
-CREATE OR REPLACE TRIGGER RejoindrePlaceClan
-BEFORE INSERT ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres INTEGER;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 50
-    THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
-  END IF;
-END;
-/
-
-prompt "Trigger SupprimerClanVide"
-
---[trigger pour supprimer un clan s'il est vide]
-CREATE OR REPLACE TRIGGER SupprimerClanVide
-AFTER UPDATE ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres INTEGER;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres <= 0 THEN 
-    DELETE FROM Clan WHERE idClan = :new.idChefDeClan;
-  END IF;
-END;
-/
-
 prompt "Trigger calculReservesNegatives"
-
 --[trigger si les réserves sont en négatif, elles passent à 0]
 CREATE OR REPLACE TRIGGER calculReservesNegatives
 BEFORE UPDATE ON Reserves
@@ -200,3 +156,25 @@ END;
 
 
 prompt -Triggers lancés
+
+
+
+
+
+/*
+prompt "Trigger RejoindrePlaceClan"
+--[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
+CREATE OR REPLACE TRIGGER RejoindrePlaceClan
+AFTER UPDATE ON Village
+FOR EACH ROW
+DECLARE
+  nbMembres INTEGER;
+BEGIN
+  SELECT COUNT(*) INTO nbMembres FROM Village
+  WHERE Village.idClan = :new.idClan;
+  IF nbMembres >= 50
+    THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
+  END IF;
+END;
+/
+*/
