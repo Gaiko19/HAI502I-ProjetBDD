@@ -45,7 +45,7 @@ prompt
 SELECT Village.nomJoueur, COUNT(*) FROM Attaque, Village
 WHERE Village.idVillage = Attaque.idAttaquant
 AND Village.niveauJoueur >= 50
-GROUP BY Village.idVillage Village.nomJoueur;
+GROUP BY Village.idVillage, Village.nomJoueur;
 
 prompt 
 prompt "##########################################################"
