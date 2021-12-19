@@ -3,7 +3,6 @@
     ==============================
 */  
 
-
 prompt "Suppression des Triggers"
 
 BEGIN

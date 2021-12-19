@@ -1,5 +1,4 @@
 prompt "Lancement des Triggers" 
-
 /*  ===========================
     |  Création des triggers |
     ===========================

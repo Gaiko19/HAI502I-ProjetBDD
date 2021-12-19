@@ -82,7 +82,7 @@ prompt "Modification d'une reserve avec -2 en quantité d'or pour le village d'i
 UPDATE Reserves SET quantite = -2 WHERE (idVillage = 2) AND (typeReserve = 'OR');
 SELECT quantite FROM Reserves WHERE idVillage = 2 AND typeReserve = 'OR';
 
---Test trigger SupprimerClanVide (BUG)
+--Test trigger SupprimerClanVide (fonctionnel)
 prompt
 prompt "##########################################################"
 prompt "Test du trigger SupprimerClanVide"
@@ -126,11 +126,11 @@ prompt "Test du trigger RejoindreChefClan"
 prompt "##########################################################"
 prompt 
 prompt "Affichage de l'idClan de Agathe"
-SELECT idClan, nomJoueur FROM Village WHERE idVillage = 62;
+SELECT nomJoueur, idClan FROM Village WHERE idVillage = 62;
 prompt "Création d'un clan avec Agathe comme chef"
 INSERT INTO Clan VALUES (35,'TEST3','FR', 15, 62);
 prompt "Affichage de l'idClan de Agathe après création du clan et affectation de l'id"
-SELECT idClan, nomJoueur FROM Village WHERE idVillage = 62;
+SELECT nomJoueur, idClan FROM Village WHERE idVillage = 62;
 
 --Test trigger NouvelleRéserve (fonctionnel)
 prompt

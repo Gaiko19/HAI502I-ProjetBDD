@@ -1,6 +1,4 @@
 prompt "Insertion des tuples Troupe"
-
-
 --INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
 INSERT INTO Troupe VALUES (1,'BARBARE',100,30,1,250,0);
 INSERT INTO Troupe VALUES (2,'ARCHERE',50,25,1,500,0);
@@ -28,7 +26,6 @@ INSERT INTO Troupe VALUES (23,'GOLEM DE GLACE',2600,12,15,0,300);
 INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
 prompt "Insertion des tuples Village"
-
 --INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, trophees, idClan);
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (1, 'MATEODU13', 10, 12, 500, null);
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (2, 'MAXIME', 125, 2800, 400, null);
@@ -50,7 +47,6 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'JEAN', 250, 4000);
 
 prompt "Insertion des tuples Heros"
-
 --INSERT INTO Heros VALUES (id,type,niveau,vie,idVillage);
 INSERT INTO Heros VALUES (001,'Roi des Barbares',50,100,11);
 INSERT INTO Heros VALUES (002,'Reine des Archers',50,100,11);
@@ -72,7 +68,6 @@ INSERT INTO Heros VALUES (017,'Reine des Archers',45,100,10);
 INSERT INTO Heros VALUES (018,'Grand Gardien',10,100,10);
 
 prompt "Insertion des tuples Attaque"
-
 --INSERT INTO Attaque VALUES (id,idAtt,idDef,trophees,etoiles,%,or,elix,noir,idGuerre);
 INSERT INTO Attaque VALUES (1,2,11,14,2,67,928680,874315,8436,null);
 INSERT INTO Attaque VALUES (2,11,7,5,1,52,125864,130221,589,null);
@@ -100,7 +95,6 @@ INSERT INTO Clan VALUES (9,'DESPACITO', 'ES', 2,16);
 INSERT INTO Clan VALUES (10,'FLAMENCO', 'ES', 7,17);
 
 prompt "Ajout de membres à des clans"
-
 -- Ajout de membres dans des clans (un trigger s'occupe déjà de rajouter le chef)
 UPDATE Village SET idClan = 1 WHERE idVillage = 2;
 UPDATE Village SET idClan = 1 WHERE idVillage = 11;
@@ -111,7 +105,6 @@ UPDATE Village SET idClan = 2 WHERE idVillage = 8;
 UPDATE Village SET idClan = 2 WHERE idVillage = 9;
 
 prompt "Insertion des tuples GuerreDeClan"
-
 --INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,nbrAttaquesMax)
 INSERT INTO GuerreDeClan VALUES (1,1,2,8);
 INSERT INTO GuerreDeClan VALUES (2,2,4,7);
@@ -153,8 +146,8 @@ INSERT INTO Camp VALUES (9, 16, 9, 12);
 INSERT INTO Camp VALUES (10, 22, 10, 8);
 
 
-UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
-UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
 
 INSERT INTO Camp VALUES (11, 1, 18, 1);
 INSERT INTO Camp VALUES (12, 2, 18, 1);
