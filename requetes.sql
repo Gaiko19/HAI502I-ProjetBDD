@@ -42,7 +42,7 @@ prompt "Autrement dit : Existe-t-il un village tel qu'il n'existe aucune troupe 
 prompt "##########################################################"
 prompt 
 
-SELECT Village.idVillage, Village.nomJoueur, FROM Village
+SELECT Village.idVillage, Village.nomJoueur FROM Village
   WHERE NOT EXISTS
     (SELECT * FROM Troupe WHERE NOT EXISTS
       (SELECT * FROM Camp WHERE Camp.idVillage = Village.idVillage
