@@ -48,9 +48,13 @@ BEGIN
   dbms_output.put_line('Declared Value:');
   dbms_output.put_line(:new.idClan);
   dbms_output.put_line(:old.idClan);
-  SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
-  IF (NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))) AND (:new.idVillage = idChef)
-    THEN DELETE FROM Clan WHERE idClan = :old.idClan;
+  IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL)) THEN
+    BEGIN
+    SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+    IF (:new.idVillage = idChef) THEN 
+      DELETE FROM Clan WHERE idClan = :old.idClan;
+    END IF;
+    END;
   END IF;
 END;
 /
