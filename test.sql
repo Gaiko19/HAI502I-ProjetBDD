@@ -120,7 +120,7 @@ prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
 --////////////////////////////////////////////////////////////////////////////--
 prompt "Suppression du chef qui est l'unique membre"
-UPDATE Village SET idClan = 1 WHERE idVillage = 61;
+UPDATE Village SET idClan = null WHERE idVillage = 61;
 --////////////////////////////////////////////////////////////////////////////--
 prompt "Affichage de tous les clans"
 SELECT idClan, nomClan FROM Clan GROUP BY idClan, nomClan;
