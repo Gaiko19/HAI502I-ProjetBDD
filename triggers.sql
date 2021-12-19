@@ -33,42 +33,24 @@ BEGIN
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
-    UPDATE Clan SET Clan.idSousChef = record.idVillage WHERE Clan.idClan = record.idClan; 
   END LOOP;
 END;
 /
 
-prompt "Trigger changementChefDeClan"
---[trigger Un nouveau chef de clan est défini aléatoirement si le chef quitte, et supprime le clan si le clan est vide]
-CREATE OR REPLACE TRIGGER changementChefDeClan
+prompt "Trigger supprimerClanSansChef"
+--[trigger Si le chef de clan quittes le clan, le clan est supprimé]
+CREATE OR REPLACE TRIGGER supprimerClanSansChef
 AFTER UPDATE ON Village
 FOR EACH ROW
 DECLARE
   idChef INTEGER;
-  nbMembres INTEGER;
-  nouveauChef INTEGER;
 BEGIN
   dbms_output.put_line('Declared Value:');
   dbms_output.put_line(:new.idClan);
   dbms_output.put_line(:old.idClan);
-  IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
-    THEN
-    BEGIN
-      SELECT nombreMembres INTO nbMembres FROM Clan WHERE Clan.idClan = :old.idClan;
-      SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
-      SELECT idSousChef INTO nouveauChef FROM Clan WHERE idClan = :old.idClan;
-      dbms_output.put_line(nbMembres);
-      IF (nbMembres <= 1) OR (nouveauChef IS NULL)
-        THEN
-          DELETE FROM Clan WHERE idClan = :old.idClan;
-      ELSIF (:new.idVillage = idChef) 
-        THEN
-          BEGIN
-            UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
-            UPDATE Clan SET idSousChef = :new.idVillage WHERE idClan = :new.idClan;
-          END;
-      END IF;
-    END;
+  SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+  IF (NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))) AND (:new.idVillage = idChef)
+    THEN DELETE FROM Clan WHERE idClan = :old.idClan;
   END IF;
 END;
 /
