@@ -16,7 +16,7 @@ prompt "Or Moyen dans les réserves des joueurs du clan GNUMZ"
 prompt "##########################################################"
 prompt 
 
-SELECT AVG(quantite) FROM Reserves, Village, Clan
+SELECT AVG(quantite) AS Or_Moyen FROM Reserves, Village, Clan
 WHERE Reserves.idVillage = Village.idVillage AND Clan.idClan = Village.idClan 
 AND Reserves.typeReserve='OR'
 AND Reserves.idVillage=Village.idVillage
@@ -42,7 +42,7 @@ prompt "Autrement dit : Existe-t-il un village tel qu'il n'existe aucune troupe 
 prompt "##########################################################"
 prompt 
 
-SELECT * FROM Village
+SELECT Village.idVillage, Village.nomJoueur FROM Village
   WHERE NOT EXISTS
     (SELECT * FROM Troupe WHERE NOT EXISTS
       (SELECT * FROM Camp WHERE Camp.idVillage = Village.idVillage
@@ -84,7 +84,7 @@ prompt "Requete group by : Nombre d'attaques des joueurs au dessus du niveau 50"
 prompt "##########################################################"
 prompt 
 
-SELECT Village.nomJoueur, COUNT(*) FROM Attaque, Village
+SELECT Village.idVillage, Village.nomJoueur, COUNT(*) FROM Attaque, Village
 WHERE Village.idVillage = Attaque.idAttaquant
 AND Village.niveauJoueur >= 50
 GROUP BY Village.idVillage, Village.nomJoueur;

@@ -230,6 +230,7 @@ EXCEPTION
 END;
 /
 
+
 /*  ===========================
     |  Création des fonctions |
     ===========================
@@ -247,6 +248,7 @@ BEGIN
   END IF;
 END;
 /
+
 
 -- Renvoie la quantité de ressource maximale du village en fonction du niveau du village
 CREATE OR REPLACE FUNCTION calculQuantiteMax (id IN INTEGER) 
@@ -269,9 +271,12 @@ prompt "Fonctions créées"
 */  
 
 prompt "Lancement des Triggers" 
+/*  ===========================
+    |  Création des triggers |
+    ===========================
+*/  
 
 prompt "Trigger nouveauVillage"
-
 --[Trigger pour créer un nouveau village et calculer sa capcitée Max]
 CREATE OR REPLACE TRIGGER nouveauVillage
 BEFORE INSERT ON Village
@@ -287,7 +292,6 @@ END;
 /
 
 prompt "Trigger nouvelleReserve"
-
 --[trigger qui ajoute une reserve à chaque création d un village]
 CREATE OR REPLACE TRIGGER nouvelleReserve
 AFTER INSERT ON Village
@@ -304,39 +308,31 @@ BEGIN
 END;
 /
 
-prompt "Trigger changementChefDeClan"
-
---[trigger chef de clan défini aléatoirement si le chef quitte]
-CREATE OR REPLACE TRIGGER changementChefDeClan
+prompt "Trigger supprimerClanSansChef"
+--[trigger Si le chef de clan quittes le clan, le clan est supprimé]
+CREATE OR REPLACE TRIGGER supprimerClanSansChef
 AFTER UPDATE ON Village
 FOR EACH ROW
 DECLARE
   idChef INTEGER;
-  nbMembres INTEGER;
-  nouveauChef INTEGER;
 BEGIN
-  IF (:old.idClan != :new.idClan) 
-    THEN 
+  dbms_output.put_line('Declared Value:');
+  dbms_output.put_line(:new.idClan);
+  dbms_output.put_line(:old.idClan);
+  IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL)) THEN
     BEGIN
-      SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
-      SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
-      IF (nbMembres <= 0) 
-        THEN 
-          DELETE FROM Clan WHERE idClan = :old.idClan;
-      ELSIF (:new.idVillage = idChef) 
-        THEN 
-          BEGIN
-            SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
-            UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
-          END;
-      END IF;
+    SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+    IF (:new.idVillage = idChef) THEN 
+      DELETE FROM Clan WHERE idClan = :old.idClan;
+    END IF;
     END;
   END IF;
 END;
 /
 
-prompt "Trigger calculTrophéesNegatifs"
 
+
+prompt "Trigger calculTrophéesNegatifs"
 --[trigger si les Trophées sont en négatif, ils passent à 0]
 CREATE OR REPLACE TRIGGER calculTropheesNegatifs
 BEFORE UPDATE ON Village
@@ -348,8 +344,9 @@ BEGIN
 END;
 /
 
-prompt "Trigger calculAttaque"
 
+
+prompt "Trigger calculAttaque"
 --[trigger pour ajouter à l'attaquant les ressources gagnées et les trophées après une attaque et les enlever au défenseur]
 CREATE OR REPLACE TRIGGER calculAttaque
 AFTER INSERT ON Attaque
@@ -367,7 +364,6 @@ END;
 /
 
 prompt "Trigger nouvelleTroupe"
-
 --[trigger pour créer une troupe en vérifiant qu'on a la place et les ressources nécessaires]
 CREATE OR REPLACE TRIGGER nouvelleTroupe
 BEFORE INSERT ON Camp
@@ -396,58 +392,22 @@ BEGIN
     UPDATE Reserves SET quantite = quantite - elixirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIR');
     UPDATE Reserves SET quantite = quantite - elixirNoirPrix WHERE (idVillage=:new.idVillage AND typeReserve='ELIXIRNOIR');
     END; 
-  ELSE RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour créer la troupe.');
+  ELSE RAISE_APPLICATION_ERROR (-20500, 'Vous n avez pas assez de ressource pour creer la troupe.');
   END IF;
 END;
 /
 
 prompt "Trigger RejoindreChefClan"
-
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
-AFTER INSERT OR UPDATE ON Clan
+AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
   UPDATE Village SET idClan = :new.idClan WHERE idVillage = :new.idChefDeClan;
 END;
 /
 
-prompt "Trigger RejoindrePlaceClan"
-
---[trigger pour voir si il reste une place dans le clan quand qqn rejoins (max 50)]
-CREATE OR REPLACE TRIGGER RejoindrePlaceClan
-BEFORE UPDATE ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres INTEGER;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres >= 50 
-    THEN RAISE_APPLICATION_ERROR (-20600, 'Le clan est plein.');
-  END IF;
-END;
-/
-
-prompt "Trigger SupprimerClanVide"
-
---[trigger pour supprimer un clan s'il est vide]
-CREATE OR REPLACE TRIGGER SupprimerClanVide
-AFTER UPDATE ON Clan
-FOR EACH ROW
-DECLARE
-  nbMembres INTEGER;
-BEGIN
-  SELECT COUNT(*) INTO nbMembres FROM Village
-  WHERE Village.idClan = :new.idClan;
-  IF nbMembres <= 0 THEN 
-    DELETE FROM Clan WHERE idClan = :new.idChefDeClan;
-  END IF;
-END;
-/
-
 prompt "Trigger calculReservesNegatives"
-
 --[trigger si les réserves sont en négatif, elles passent à 0]
 CREATE OR REPLACE TRIGGER calculReservesNegatives
 BEFORE UPDATE ON Reserves
@@ -467,7 +427,6 @@ prompt -Triggers lancés
 */  
 
 prompt "Insertion des tuples Troupe"
-
 --INSERT INTO Troupe VALUES (ID,NOM,PV,DEGAT,PLACE,PRIX_ELIXIR,prix_noir);
 INSERT INTO Troupe VALUES (1,'BARBARE',100,30,1,250,0);
 INSERT INTO Troupe VALUES (2,'ARCHERE',50,25,1,500,0);
@@ -495,7 +454,6 @@ INSERT INTO Troupe VALUES (23,'GOLEM DE GLACE',2600,12,15,0,300);
 INSERT INTO Troupe VALUES (24,'CHASSEUSE DE TETES',360,105,6,0,120);
 
 prompt "Insertion des tuples Village"
-
 --INSERT INTO Village VALUES (ID, NOM_village, lvl, capacité_camp, trophees, idClan);
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (1, 'MATEODU13', 10, 12, 500, null);
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur,capaciteeCampMax, trophees, idClan) VALUES (2, 'MAXIME', 125, 2800, 400, null);
@@ -517,7 +475,6 @@ INSERT INTO Village(idVillage, nomJoueur) VALUES (17, 'GREY');
 INSERT INTO Village(idVillage, nomJoueur, niveauJoueur, trophees) VALUES (18, 'JEAN', 250, 4000);
 
 prompt "Insertion des tuples Heros"
-
 --INSERT INTO Heros VALUES (id,type,niveau,vie,idVillage);
 INSERT INTO Heros VALUES (001,'Roi des Barbares',50,100,11);
 INSERT INTO Heros VALUES (002,'Reine des Archers',50,100,11);
@@ -539,7 +496,6 @@ INSERT INTO Heros VALUES (017,'Reine des Archers',45,100,10);
 INSERT INTO Heros VALUES (018,'Grand Gardien',10,100,10);
 
 prompt "Insertion des tuples Attaque"
-
 --INSERT INTO Attaque VALUES (id,idAtt,idDef,trophees,etoiles,%,or,elix,noir,idGuerre);
 INSERT INTO Attaque VALUES (1,2,11,14,2,67,928680,874315,8436,null);
 INSERT INTO Attaque VALUES (2,11,7,5,1,52,125864,130221,589,null);
@@ -567,7 +523,6 @@ INSERT INTO Clan VALUES (9,'DESPACITO', 'ES', 2,16);
 INSERT INTO Clan VALUES (10,'FLAMENCO', 'ES', 7,17);
 
 prompt "Ajout de membres à des clans"
-
 -- Ajout de membres dans des clans (un trigger s'occupe déjà de rajouter le chef)
 UPDATE Village SET idClan = 1 WHERE idVillage = 2;
 UPDATE Village SET idClan = 1 WHERE idVillage = 11;
@@ -578,7 +533,6 @@ UPDATE Village SET idClan = 2 WHERE idVillage = 8;
 UPDATE Village SET idClan = 2 WHERE idVillage = 9;
 
 prompt "Insertion des tuples GuerreDeClan"
-
 --INSERT INTO GuerreDeClan VALUES (idGuerre,idClan1,idClan2,nbrAttaquesMax)
 INSERT INTO GuerreDeClan VALUES (1,1,2,8);
 INSERT INTO GuerreDeClan VALUES (2,2,4,7);
@@ -605,7 +559,8 @@ UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 11) AND (typeReserve =
 UPDATE Reserves SET quantite = 1000000 WHERE (idVillage = 11) AND (typeReserve = 'ELIXIR');
 UPDATE Reserves SET quantite = 10000 WHERE (idVillage = 11) AND (typeReserve = 'ELIXIRNOIR');
 
-prompt "Insertion des tuples Camp" --(idCamp, idTroupe, idVillage, nbrTroupe)
+prompt "Insertion des tuples Camp" 
+--(idCamp, idTroupe, idVillage, nbrTroupe)
 INSERT INTO Camp VALUES (1, 2, 14, 40);
 INSERT INTO Camp VALUES (2, 16, 2, 5);
 INSERT INTO Camp VALUES (7, 14, 2, 3);
@@ -619,8 +574,8 @@ INSERT INTO Camp VALUES (9, 16, 9, 12);
 INSERT INTO Camp VALUES (10, 22, 10, 8);
 
 
-UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
-UPDATE Reserves SET quantite =  quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
+UPDATE Reserves SET quantite = quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIR');
+UPDATE Reserves SET quantite = quantite + 1000000 WHERE (idVillage = 18) AND (typeReserve = 'ELIXIRNOIR');
 
 INSERT INTO Camp VALUES (11, 1, 18, 1);
 INSERT INTO Camp VALUES (12, 2, 18, 1);
@@ -647,3 +602,98 @@ INSERT INTO Camp VALUES (34, 24, 18, 1);
 INSERT INTO Camp VALUES (35, 13, 18, 1);
 INSERT INTO Camp VALUES (36, 15, 18, 1);
 
+/*  =============
+    |  Requetes |
+    =============
+*/  
+
+prompt
+prompt "##########################################################"
+prompt "Toutes les différentes troupes du village de 'MAXIME' (Requete Group By)"
+prompt "##########################################################"
+prompt
+
+SELECT Troupe.nomTroupe FROM Troupe, Camp, Village
+WHERE Troupe.idTroupe=Camp.idTroupe
+AND Camp.idVillage=Village.idVillage
+AND Village.nomJoueur='MAXIME'
+GROUP BY Troupe.nomTroupe;
+
+prompt 
+prompt "##########################################################"
+prompt "Or Moyen dans les réserves des joueurs du clan GNUMZ"
+prompt "##########################################################"
+prompt 
+
+SELECT AVG(quantite) AS Or_Moyen FROM Reserves, Village, Clan
+WHERE Reserves.idVillage = Village.idVillage AND Clan.idClan = Village.idClan 
+AND Reserves.typeReserve='OR'
+AND Reserves.idVillage=Village.idVillage
+AND Village.idClan=Clan.idClan
+AND Clan.nomClan='GNUMZ';
+
+prompt 
+prompt "##########################################################"
+prompt "Requete group by : Nombre de troupes du village de 'JEAN'"
+prompt "##########################################################"
+prompt 
+
+SELECT Village.nomJoueur, COUNT(*) FROM Camp, Village
+WHERE Village.idVillage = Camp.idVillage
+AND Camp.idVillage=Village.idVillage
+AND Village.nomJoueur='JEAN'
+GROUP BY Village.nomJoueur;
+
+prompt 
+prompt "##########################################################"
+prompt "Requete avec division : Existe-t-il un village qui possède toutes les troupes ?"
+prompt "Autrement dit : Existe-t-il un village tel qu'il n'existe aucune troupe qui ne soit pas formé par ce village ?"
+prompt "##########################################################"
+prompt 
+
+SELECT Village.idVillage, Village.nomJoueur FROM Village
+  WHERE NOT EXISTS
+    (SELECT * FROM Troupe WHERE NOT EXISTS
+      (SELECT * FROM Camp WHERE Camp.idVillage = Village.idVillage
+                          AND Camp.idTroupe = Troupe.idTroupe));
+
+prompt
+prompt "##########################################################"
+prompt "Les villages qui ne possèdent pas de troupe (Sous-requête)"
+prompt "##########################################################"
+prompt 
+
+SELECT Village.idVillage FROM Village 
+WHERE Village.idVillage NOT IN (SELECT idVillage FROM Camp GROUP BY idVillage);
+
+prompt 
+prompt "##########################################################"
+prompt "Requete avec sous requete corrélative : Quels sont les villages qui possèdent des troupes"
+prompt "##########################################################"
+prompt 
+
+SELECT idVillage, nomJoueur FROM Village Vil 
+WHERE EXISTS(SELECT * FROM Camp WHERE Vil.idVillage = Camp.idVillage); 
+
+prompt 
+prompt "##########################################################"
+prompt "Village(s) possédant le plus d'elixir Noir"
+prompt "##########################################################"
+prompt 
+
+SELECT v.idVillage, v.nomJoueur, r.quantite FROM Village v, Reserves r
+WHERE v.idVillage = r.idVillage
+AND r.typeReserve = 'ELIXIRNOIR'
+AND r.quantite >= (SELECT MAX(quantite) FROM Reserves
+                  WHERE typeReserve='ELIXIRNOIR');
+
+prompt 
+prompt "##########################################################"
+prompt "Requete group by : Nombre d'attaques des joueurs au dessus du niveau 50"
+prompt "##########################################################"
+prompt 
+
+SELECT Village.idVillage, Village.nomJoueur, COUNT(*) FROM Attaque, Village
+WHERE Village.idVillage = Attaque.idAttaquant
+AND Village.niveauJoueur >= 50
+GROUP BY Village.idVillage, Village.nomJoueur;
