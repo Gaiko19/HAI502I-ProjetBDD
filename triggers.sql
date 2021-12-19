@@ -1,9 +1,9 @@
+prompt "Lancement des Triggers" 
+
 /*  ===========================
     |  Création des triggers |
     ===========================
 */  
-
-prompt "Lancement des Triggers" 
 
 prompt "Trigger nouveauVillage"
 --[Trigger pour créer un nouveau village et calculer sa capcitée Max]
@@ -33,6 +33,7 @@ BEGIN
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
+    UPDATE Clan SET idSousChef = :new.idVillage WHERE idClan = :new.idClan; 
   END LOOP;
 END;
 /
@@ -53,23 +54,26 @@ BEGIN
   IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
     THEN
     BEGIN
-      SELECT COUNT(*) INTO nbMembres FROM Village WHERE Village.idClan = :old.idClan;
+      SELECT nombreMembres INTO nbMembres FROM cLAN WHERE Village.idClan = :old.idClan;
       SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
+      SELECT idSousChef INTO nouveauChef FROM Clan WHERE idClan = :old.idClan;
       dbms_output.put_line(nbMembres);
-      IF (nbMembres <= 0) 
+      IF (nbMembres <= 1) OR (nouveauChef is NULL)
         THEN
           DELETE FROM Clan WHERE idClan = :old.idClan;
       ELSIF (:new.idVillage = idChef) 
         THEN
           BEGIN
-            SELECT idVillage INTO nouveauChef FROM Village WHERE (idClan = :old.idClan) FETCH FIRST 1 ROWS ONLY;
             UPDATE Clan SET idChefDeClan = nouveauChef WHERE idClan = :old.idClan;
+            UPDATE Clan SET idSousChef = :new.idVillage WHERE idClan = :new.idClan;
           END;
       END IF;
     END;
   END IF;
 END;
 /
+
+
 
 prompt "Trigger calculTrophéesNegatifs"
 --[trigger si les Trophées sont en négatif, ils passent à 0]
@@ -139,7 +143,7 @@ END;
 prompt "Trigger RejoindreChefClan"
 --[trigger pour ajouter l'id d'un clan à un Village qui en est le chef]
 CREATE OR REPLACE TRIGGER RejoindreChefClan
-AFTER INSERT OR UPDATE ON Clan
+AFTER INSERT ON Clan
 FOR EACH ROW
 BEGIN
   UPDATE Village SET idClan = :new.idClan WHERE idVillage = :new.idChefDeClan;
