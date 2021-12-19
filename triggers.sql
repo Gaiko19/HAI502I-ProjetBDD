@@ -54,11 +54,11 @@ BEGIN
   IF NOT(:old.idClan = :new.idClan) OR ((:new.idClan IS NULL) AND (:old.idClan IS NOT NULL))
     THEN
     BEGIN
-      SELECT nombreMembres INTO nbMembres FROM cLAN WHERE Village.idClan = :old.idClan;
+      SELECT nombreMembres INTO nbMembres FROM Clan WHERE Clan.idClan = :old.idClan;
       SELECT idChefDeClan INTO idChef FROM Clan WHERE idClan = :old.idClan;
       SELECT idSousChef INTO nouveauChef FROM Clan WHERE idClan = :old.idClan;
       dbms_output.put_line(nbMembres);
-      IF (nbMembres <= 1) OR (nouveauChef is NULL)
+      IF (nbMembres <= 1) OR (nouveauChef IS NULL)
         THEN
           DELETE FROM Clan WHERE idClan = :old.idClan;
       ELSIF (:new.idVillage = idChef) 
