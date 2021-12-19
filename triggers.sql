@@ -33,7 +33,7 @@ BEGIN
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'OR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIR', qMax, 100000);
     INSERT INTO Reserves(idVillage, typeReserve, quantiteMax, quantite) VALUES(record.idVillage, 'ELIXIRNOIR', qMax, 100000);
-    UPDATE Clan SET idSousChef = record.idVillage WHERE idClan = record.idClan; 
+    UPDATE Clan SET Clan.idSousChef = record.idVillage WHERE Clan.idClan = record.idClan; 
   END LOOP;
 END;
 /
