@@ -26,7 +26,7 @@ END;
 /
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER changementChefDeClan ';
+EXECUTE IMMEDIATE 'DROP TRIGGER supprimerClanSansChef';
 EXCEPTION
  WHEN OTHERS THEN
   IF SQLCODE != -1360 THEN
@@ -76,26 +76,6 @@ END;
 /
 
 BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER RejoindrePlaceClan';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -1360 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
-EXECUTE IMMEDIATE 'DROP TRIGGER SupprimerClanVide';
-EXCEPTION
- WHEN OTHERS THEN
-  IF SQLCODE != -1360 THEN
-  RAISE;
-  END IF;
-END;
-/
-
-BEGIN
 EXECUTE IMMEDIATE 'DROP TRIGGER calculReservesNegatives';
 EXCEPTION
  WHEN OTHERS THEN
@@ -106,6 +86,7 @@ END;
 /
 
 prompt "Suppression des Fonctions"
+
 
 begin
    execute immediate 'DROP PROCEDURE calculCapaciteMax';
@@ -128,6 +109,11 @@ END;
 
 
 prompt "Suppression des table"
+
+/*  ==============================
+    |  Suppression des relations |
+    ==============================
+*/
 
 BEGIN
 EXECUTE IMMEDIATE 'DROP TABLE Camp';
